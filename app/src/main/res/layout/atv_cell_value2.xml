@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <FrameLayout
+        android:id="@+id/backgroundView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.nakardo.atableview.internal.ATableViewCellContainerView
+            android:id="@+id/containerView"
+            style="@style/Widget.ATableViewCell"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView"
+                style="@style/Widget.ATableViewCell.ImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.nakardo.atableview.uikit.UILabel
+                android:id="@+id/textLabel"
+                style="@style/Widget.ATableViewCell.TextLabel.Value2"
+                android:layout_width="@dimen/atv_value2_cell_text_label_width"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/atv_cell_content_margin" />
+
+            <com.nakardo.atableview.uikit.UILabel
+                android:id="@+id/detailTextLabel"
+                style="@style/Widget.ATableViewCell.DetailTextLabel.Value2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/atv_cell_content_margin"
+                android:layout_marginRight="@dimen/atv_cell_content_margin"
+                android:layout_weight="1" />
+        </com.nakardo.atableview.internal.ATableViewCellContainerView>
+    </FrameLayout>
+
+</merge>

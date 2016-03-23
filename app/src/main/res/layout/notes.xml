@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <FrameLayout
+        android:id="@+id/titlebar"
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:background="#000000"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/notetitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="笔记"
+            android:textColor="#ffffff"
+            android:textSize="22dp" />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_marginTop="44dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <EditText
+            android:id="@+id/notecontent"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/note_edittext"
+            android:editable="false"
+            android:gravity="top"
+            android:padding="17dp"
+            android:textSize="18dp" />
+    </ScrollView>
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/atv_grouped_section_header_footer_min_height">
+
+    <com.nakardo.atableview.uikit.UILabel
+        android:id="@+id/textLabel"
+        style="@style/Widget.ATableView.Section.Grouped.Footer.TextLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</merge>

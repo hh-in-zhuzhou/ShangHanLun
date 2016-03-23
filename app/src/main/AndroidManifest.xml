@@ -1,0 +1,32 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="me.huanghai.shanghanlun_android">
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:name="me.huanghai.searchController.MyApplication"
+        android:icon="@drawable/ic_launche2"
+        android:theme="@style/title_bg">
+        <activity
+            android:name="me.huanghai.shanghanlun_android.TabController"
+            android:icon="@drawable/ic_launche2"
+            android:label="@string/app_name"
+            android:logo="@drawable/ic_launche2"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="me.huanghai.shanghanlun_android.MainActivity"
+            android:label="another"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name="me.huanghai.shanghanlun_android.NotesShow"
+            android:label=""
+            android:windowSoftInputMode="adjustPan"></activity>
+    </application>
+
+</manifest>

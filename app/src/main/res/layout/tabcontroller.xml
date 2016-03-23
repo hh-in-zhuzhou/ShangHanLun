@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/backgroundmask"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RadioGroup
+            android:id="@+id/rg_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#eeeeee"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/firstContentTab"
+                style="@style/myTab"
+                android:drawableTop="@drawable/list_selector"
+                android:singleLine="true"
+                android:text="伤寒杂病论" />
+
+            <RadioButton
+                android:id="@+id/fangYaoTab"
+                style="@style/myTab"
+                android:drawableTop="@drawable/magnify_selector"
+                android:text="伤寒金匮方" />
+
+            <RadioButton
+                android:id="@+id/yaoTab"
+                style="@style/myTab"
+                android:drawableTop="@drawable/yao_selector"
+                android:text="伤寒金匮药" />
+
+            <RadioButton
+                android:id="@+id/unitTab"
+                style="@style/myTab"
+                android:drawableTop="@drawable/ruler_selector"
+                android:text="汉制单位" />
+
+            <RadioButton
+                android:id="@+id/settingsTab"
+                style="@style/myTab"
+                android:drawableTop="@drawable/settings_selector"
+                android:text="设置" />
+        </RadioGroup>
+    </LinearLayout>
+
+</FrameLayout>

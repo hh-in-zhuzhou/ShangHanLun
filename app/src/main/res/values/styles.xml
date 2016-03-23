@@ -1,0 +1,139 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Widget"></style>
+
+    <style name="Widget.ATableView.Section.TextLabel" parent="@style/Widget">
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="Widget.ATableView.Section.Plain.TextLabel" parent="@style/Widget.ATableView.Section.TextLabel">
+        <!-->item name="android:textColor">@android:color/white</item-->
+        <!--<item name="android:shadowColor">@color/atv_plain_section_header_text</item>  -->
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Widget.ATableView.Section.Grouped.TextLabel" parent="@style/Widget.ATableView.Section.TextLabel">
+        <item name="android:textColor">@color/atv_grouped_section_header_text</item>
+        <item name="android:shadowColor">@android:color/white</item>
+    </style>
+
+    <style name="Widget.ATableView.Section.Plain.Header.TextLabel" parent="@style/Widget.ATableView.Section.Plain.TextLabel">
+        <item name="android:textSize">@dimen/atv_plain_header_text_size</item>
+        <!-- <item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="Widget.ATableView.Section.Grouped.Header.TextLabel" parent="@style/Widget.ATableView.Section.Grouped.TextLabel">
+        <item name="android:textSize">@dimen/atv_grouped_section_header_text_size</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="Widget.ATableView.Section.Grouped.Footer.TextLabel" parent="@style/Widget.ATableView.Section.Grouped.TextLabel">
+        <item name="android:textSize">@dimen/atv_grouped_section_footer_text_size</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="Widget.ATableViewCell">
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.ImageView" parent="@style/Widget">
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.TextLabel" parent="@style/Widget">
+        <item name="android:textStyle">normal</item>
+        <item name="android:maxLines">100</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.DetailTextLabel" parent="@style/Widget.ATableViewCell.TextLabel"></style>
+
+    <style name="Widget.ATableViewCell.TextLabel.Default" parent="@style/Widget.ATableViewCell.TextLabel">
+        <item name="android:textColor">@color/atv_default_cell_text_selector</item>
+        <item name="android:textSize">@dimen/atv_default_cell_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.TextLabel.Subtitle" parent="@style/Widget.ATableViewCell.TextLabel">
+        <item name="android:textColor">@color/atv_subtitle_cell_text_selector</item>
+        <item name="android:textSize">@dimen/atv_subtitle_cell_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.DetailTextLabel.Subtitle" parent="@style/Widget.ATableViewCell.DetailTextLabel">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/atv_subtitle_cell_detail_text_selector</item>
+        <item name="android:textSize">@dimen/atv_subtitle_cell_detail_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.TextLabel.Value1" parent="@style/Widget.ATableViewCell.TextLabel">
+        <item name="android:textColor">@color/atv_value1_cell_title_text_selector</item>
+        <item name="android:textSize">@dimen/atv_value1_cell_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.DetailTextLabel.Value1" parent="@style/Widget.ATableViewCell.DetailTextLabel">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/atv_value1_cell_detail_text_selector</item>
+        <item name="android:textSize">@dimen/atv_value1_cell_detail_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.TextLabel.Value2" parent="@style/Widget.ATableViewCell.TextLabel">
+        <item name="android:gravity">right</item>
+        <item name="android:textColor">@color/atv_value2_cell_title_text_selector</item>
+        <item name="android:textSize">@dimen/atv_value2_cell_text_size</item>
+    </style>
+
+    <style name="Widget.ATableViewCell.DetailTextLabel.Value2" parent="@style/Widget.ATableViewCell.DetailTextLabel">
+        <item name="android:textColor">@color/atv_value2_cell_detail_text_selector</item>
+        <item name="android:textSize">@dimen/atv_value2_cell_details_text_size</item>
+    </style>
+
+    <!--
+       Base application theme, dependent on API level. This theme is replaced
+       by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+   -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="myTheme" parent="AppTheme">
+        <item name="android:windowTitleSize">0dp</item>
+    </style>
+
+    <style name="myTab">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:paddingTop">8dip</item>
+        <item name="android:paddingBottom">4dip</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@drawable/textcolor_selector</item>
+    </style>
+
+    <style name="title_bg" parent="myTheme">
+        <item name="android:windowTitleBackgroundStyle">@style/Titleground</item>
+        <item name="actionSheetStyle">@style/ActionSheetStyleIOS7</item>
+    </style>
+
+    <style name="Titleground">
+        <!-- #9ab3ff -->
+        <item name="android:background">#000000</item>
+    </style>
+
+</resources>

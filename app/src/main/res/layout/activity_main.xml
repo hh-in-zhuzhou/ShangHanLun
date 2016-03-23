@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <FrameLayout
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_gravity="center_vertical"
+        android:background="#000000"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+        <me.huanghai.shanghanlun_android.ClearEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_margin="8dp"
+            android:background="@drawable/corners"
+            android:drawableLeft="@drawable/magnifying11"
+            android:drawableRight="@drawable/delete_selector"
+            android:hint="输入搜索词或数字以定位到该条"
+            android:inputType="text"
+            android:paddingLeft="0dp"
+            android:paddingRight="9dp"
+            android:singleLine="true"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/numTips"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="38dp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textColor="#888888" />
+    </FrameLayout>
+
+    <com.nakardo.atableview.view.ATableView
+        android:id="@+id/tableview"
+        android:layout_below="@id/titlebar"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"></com.nakardo.atableview.view.ATableView>
+
+
+</RelativeLayout>
