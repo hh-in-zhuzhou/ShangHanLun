@@ -45,7 +45,7 @@
         android:id="@+id/tableview"
         android:layout_below="@id/titlebar"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"></com.nakardo.atableview.view.ATableView>
+        android:layout_height="match_parent" />
 
 
 </RelativeLayout>

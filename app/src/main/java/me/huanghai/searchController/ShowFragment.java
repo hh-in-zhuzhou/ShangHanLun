@@ -1,11 +1,11 @@
 package me.huanghai.searchController;
 
+import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -59,6 +59,9 @@ public class ShowFragment extends Fragment implements TextWatcher {
     protected NSIndexPath curIndexPath;
     protected SampleATableViewDataSource dataSource = new SampleATableViewDataSource();
     protected SampleATableViewDelegate delegate = new SampleATableViewDelegate();
+
+    public ShowFragment() {
+    }
 
     public ShowFragment(List<HH2SectionData> d) {
         data = d;
@@ -118,22 +121,10 @@ public class ShowFragment extends Fragment implements TextWatcher {
         tableView.reloadData();
     }
 
-    public boolean isNumeric(String str) {
-        if (str == null || str.length() == 0) {
-            return false;
-        }
-        for (int i = str.length(); --i >= 0; ) {
-            int chr = str.charAt(i);
-            if (chr < 48 || chr > 57)
-                return false;
-        }
-        return true;
-    }
-
     public void setSearchText(String str) {
         searchText = str;
         // 搜索逻辑
-        if (str == null || str.length() == 0 || isNumeric(str)) {
+        if (str == null || str.length() == 0 || Helper.isNumeric(str)) {
             data = dataBak;
             if (tableView != null) {
                 tableView.reloadData();

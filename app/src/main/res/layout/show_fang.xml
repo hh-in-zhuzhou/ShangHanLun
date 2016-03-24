@@ -19,6 +19,6 @@
         android:id="@+id/showfang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:layout_gravity="bottom"></com.nakardo.atableview.view.ATableView>
+        android:background="@drawable/round_win"
+        android:layout_gravity="bottom" />
 </FrameLayout>

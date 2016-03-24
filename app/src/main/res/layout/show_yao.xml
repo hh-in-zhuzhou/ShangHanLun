@@ -19,14 +19,15 @@
         android:id="@+id/maskscroll"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#ffffff"
-        android:layout_gravity="bottom">
+        android:background="@drawable/round_win"
+        android:layout_gravity="bottom"
+        android:clipChildren="true">
 
         <com.nakardo.atableview.uikit.UILabel
             android:id="@+id/textview"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffff"
+            android:background="@drawable/round_win_inner"
             android:padding="10dp"
             android:textColor="#000000"
             android:textSize="18dp" />

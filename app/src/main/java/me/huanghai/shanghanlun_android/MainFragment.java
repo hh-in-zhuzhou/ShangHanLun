@@ -9,13 +9,9 @@ import com.nakardo.atableview.view.ATableView;
 
 import me.huanghai.searchController.DataItem;
 import me.huanghai.searchController.HH2SectionData;
+import me.huanghai.searchController.Helper;
 import me.huanghai.searchController.ShowFragment;
 import me.huanghai.searchController.SingletonData;
-
-//import android.support.v4.app.FragmentTransaction;
-//import android.R.integer;
-//import android.app.ActionBar.LayoutParams;
-
 
 public class MainFragment extends ShowFragment implements ActionSheet.ActionSheetListener {
 
@@ -27,7 +23,7 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setSearchText(String str) {
         searchText = str;
-        if (str != null && isNumeric(str)) {
+        if (str != null && Helper.isNumeric(str)) {
             data = dataBak;
             if (tableView != null) {
                 isContentOpen = true;

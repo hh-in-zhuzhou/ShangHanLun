@@ -1,11 +1,11 @@
 package me.huanghai.shanghanlun_android;
 
+import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.SpannableStringBuilder;
 import android.view.Gravity;
 import android.view.LayoutInflater;

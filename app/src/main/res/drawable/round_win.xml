@@ -8,20 +8,22 @@
         android:angle="90" />
     <!-- 背景颜色渐变 -->
 
+    <solid android:color="#ffffff"></solid>
+
     <stroke
         android:width="1dp"
         android:color="#888888"></stroke>
 
     <!--描边 -->
 
-    <corners
-        android:bottomRightRadius="5dp"
-
-        android:bottomLeftRadius="5dp"
-        android:topLeftRadius="5dp"
-
-        android:topRightRadius="5dp" />
+    <corners android:radius="8dp" />
     <!--设置圆角-->
+
+    <padding
+        android:left="0dip"
+        android:top="0dip"
+        android:right="0dip"
+        android:bottom="0dip" />
 
 
 </shape>

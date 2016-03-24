@@ -17,6 +17,7 @@ import com.nakardo.atableview.view.ATableViewCell;
 
 import me.huanghai.searchController.DataItem;
 import me.huanghai.searchController.HH2SectionData;
+import me.huanghai.searchController.Helper;
 import me.huanghai.searchController.ShowFragment;
 import me.huanghai.searchController.SingletonData;
 
@@ -78,7 +79,7 @@ public class YaoFragment extends ShowFragment {
             SpannableStringBuilder builder = new SpannableStringBuilder();
             for (HH2SectionData sec : data) {
                 for (DataItem item : sec.getData()) {
-                    builder.append(item.renderText(String.format("$u{%s}，",
+                    builder.append(Helper.renderText(String.format("$u{%s}，",
                             item.getYaoList()[0])));
                 }
             }

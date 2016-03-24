@@ -1,15 +1,15 @@
 package me.huanghai.shanghanlun_android;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
 
     private FragmentManager fragmentManager;
     private RadioGroup radioGroup;
@@ -31,7 +31,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         // mContainer = (ViewGroup) findViewById(R.id.content);
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = getFragmentManager();
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         radioGroup.check(tranId);
         radioGroup.setVisibility(ViewGroup.GONE);

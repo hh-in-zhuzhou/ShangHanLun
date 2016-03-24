@@ -1,5 +1,6 @@
 package me.huanghai.searchController;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -30,6 +31,8 @@ public class SingletonData {
     protected Map<String, String> fangAliasDict;
     protected List<String> allYao;
     protected List<String> allFang;
+
+    public FragmentManager fragmentManager;
 
     protected List<View> littleWindows = new ArrayList<View>();
 

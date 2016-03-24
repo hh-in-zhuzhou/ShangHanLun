@@ -1,10 +1,10 @@
 package me.huanghai.shanghanlun_android;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import java.util.Map;
 import me.huanghai.searchController.ShowFragment;
 import me.huanghai.searchController.SingletonData;
 
-public class TabController extends FragmentActivity {
+public class TabController extends Activity {
     private FragmentManager fragmentManager;
     private RadioGroup radioGroup;
     // private ViewGroup mContainer;
@@ -58,7 +58,8 @@ public class TabController extends FragmentActivity {
         fragmentsMap.put(new Integer(R.id.settingsTab), new Integer(4));
 
         // mContainer = (ViewGroup) findViewById(R.id.content);
-        fragmentManager = getSupportFragmentManager();
+        fragmentManager = getFragmentManager();
+        SingletonData.getInstance().fragmentManager = fragmentManager;
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         radioGroup.check(R.id.firstContentTab);
         FragmentTransaction transaction = fragmentManager.beginTransaction();

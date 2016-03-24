@@ -1,6 +1,6 @@
 package me.huanghai.shanghanlun_android;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 
 public class FragmentFactory {
     public static Fragment getInstanceByIndex(int index) {

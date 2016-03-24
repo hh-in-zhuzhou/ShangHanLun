@@ -20,6 +20,7 @@ import java.util.List;
 
 import me.huanghai.searchController.DataItem;
 import me.huanghai.searchController.HH2SectionData;
+import me.huanghai.searchController.Helper;
 import me.huanghai.searchController.ShowFragment;
 import me.huanghai.searchController.SingletonData;
 
@@ -55,7 +56,7 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
             SpannableStringBuilder builder = new SpannableStringBuilder();
             List<DataItem> list = data.get(i).getData();
             for (DataItem item : list) {
-                builder.append(item.renderText(String.format("$f{%s}，",
+                builder.append(Helper.renderText(String.format("$f{%s}，",
                         item.getFangList()[0])));
             }
             if (i < linksStrings.size()) {
