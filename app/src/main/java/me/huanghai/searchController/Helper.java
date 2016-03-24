@@ -110,13 +110,6 @@ public class Helper {
                     @Override
                     public void onClick(View widget) {
                         // TODO Auto-generated method stub
-                        // if (SingletonData.getInstance().hasShowFang()) {
-                        // return;
-                        // }
-
-                        // ShowFang showFang = new ShowFang("xyz");
-                        // SingletonData.getInstance().pushShowFang(showFang);
-
                         UILabel tv = (UILabel) widget;
                         String s = tv
                                 .getText()
@@ -125,117 +118,8 @@ public class Helper {
                         System.out.println("tapped:" + s);
                         Rect rect = getTextRect(this, (TextView) widget);
 //                        callBack.onYaoCallBack(rect, s);
-//                        LittleTextViewWindow window = new LittleTextViewWindow(s, rect);
-//                        window.show(SingletonData.getInstance().fragmentManager);
-                        Context context = MyApplication.getAppContext();
-                        WindowManager wmManager = (WindowManager) context
-                                .getSystemService(Context.WINDOW_SERVICE);
-                        Display display = wmManager.getDefaultDisplay();
-                        DisplayMetrics metrics = new DisplayMetrics();
-                        display.getMetrics(metrics);
-                        // layout_是整个页面的根framelayout
-                        final ViewGroup layout_ = (ViewGroup) SingletonData
-                                .getInstance().getMask();
-                        LayoutInflater inflater = (LayoutInflater) context
-                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        // 这里的main布局是在inflate中加入的哦，以前都是直接this.setContentView()的吧？呵呵
-                        // 该方法返回的是一个View的对象，是布局中的根
-                        final View layout = inflater.inflate(R.layout.show_yao,
-                                null);
-
-                        Button btn = (Button) layout
-                                .findViewById(R.id.maskbtnYao);
-                        btn.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                // TODO Auto-generated method stub
-                                layout_.removeView(layout);
-                                List<View> vs = SingletonData.getInstance()
-                                        .getLittleWindows();
-                                vs.remove(vs.size() - 1);
-                            }
-                        });
-
-                        UILabel textView = (UILabel) layout
-                                .findViewById(R.id.textview);
-                        textView.setText("未找到");
-
-                        SpannableStringBuilder spanString = new SpannableStringBuilder();
-                        SingletonData single = SingletonData.getInstance();
-                        Map<String, String> yaoDict = single.getYaoAliasDict();
-                        String right = yaoDict.get(s);
-                        if (right == null) {
-                            right = s;
-                        }
-                        for (HH2SectionData sec : single.getYaoData()) {
-                            for (DataItem item : sec.getData()) {
-                                String yao__ = item.getYaoList()[0];
-                                String left = yaoDict.get(yao__);
-                                if (left == null) {
-                                    left = yao__;
-                                }
-                                if (left.equals(right)) {
-                                    spanString.append(item.getAttributedText());
-                                }
-                            }
-                        }
-
-                        int count = 0;
-                        for (HH2SectionData sec : SingletonData.getInstance()
-                                .getFang()) {
-                            SpannableStringBuilder spanIn = new SpannableStringBuilder();
-                            count = 0;
-                            for (DataItem item : sec.getData()) {
-                                for (String string : item.getYaoList()) {
-                                    String left = yaoDict.get(string);
-                                    if (left == null) {
-                                        left = string;
-                                    }
-                                    if (left.equals(right)) {
-                                        count++;
-                                        spanIn.append(renderText("$f{"
-                                                + item.getFangList()[0] + "}、"));
-                                        break;
-                                    }
-                                }
-                            }
-                            if (count > 0) {
-                                spanString.append("\n\n" + sec.getHeader()
-                                        + " 凡" + count + "方\n");
-                                spanString.append(spanIn);
-                            }
-                        }
-
-                        textView.setText(spanString);
-                        textView.setMovementMethod(LocalLinkMovementMethod
-                                .getInstance());
-
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                                FrameLayout.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                        int margin = 50;
-                        // int num =
-                        // SingletonData.getInstance().getShowFangNum();
-                        if (rect.top < display.getHeight() / 2.0) {
-                            params.setMargins(margin,
-                                    rect.top + 20, margin, margin);
-                        } else {
-                            params.gravity = Gravity.BOTTOM;
-                            params.setMargins(
-                                    margin,
-                                    margin,
-                                    margin,
-                                    (display.getHeight() - rect.top) + 20);
-
-                        }
-                        ScrollView scroll = (ScrollView) layout
-                                .findViewById(R.id.maskscroll);
-                        scroll.setLayoutParams(params);
-//                        scroll.setBackgroundResource(R.drawable.round_win);
-                        layout_.addView(layout);
-                        SingletonData.getInstance().getLittleWindows()
-                                .add(layout);
+                        LittleTextViewWindow window = new LittleTextViewWindow(s, rect);
+                        window.show(SingletonData.getInstance().fragmentManager);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -256,74 +140,8 @@ public class Helper {
                         System.out.println("tapped:" + s);
                         Rect rect = getTextRect(this, (TextView) widget);
 
-                        Context context = MyApplication.getAppContext();
-                        WindowManager wmManager = (WindowManager) context
-                                .getSystemService(Context.WINDOW_SERVICE);
-                        Display display = wmManager.getDefaultDisplay();
-                        DisplayMetrics metrics = new DisplayMetrics();
-                        display.getMetrics(metrics);
-                        // layout_是整个页面的根framelayout
-                        final ViewGroup layout_ = (ViewGroup) SingletonData
-                                .getInstance().getMask();
-                        LayoutInflater inflater = (LayoutInflater) context
-                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        // 这里的main布局是在inflate中加入的哦，以前都是直接this.setContentView()的吧？呵呵
-                        // 该方法返回的是一个View的对象，是布局中的根
-                        final ViewGroup layout = (ViewGroup) inflater.inflate(
-                                R.layout.show_fang, null);
-                        Button btn = (Button) layout.findViewById(R.id.maskbtn);
-                        btn.setOnClickListener(new View.OnClickListener() {
-
-                            @Override
-                            public void onClick(View v) {
-                                // TODO Auto-generated method stub
-                                layout_.removeView(layout);
-                                SingletonData.getInstance().popShowFang();
-                                List<View> vs = SingletonData.getInstance()
-                                        .getLittleWindows();
-                                vs.remove(vs.size() - 1);
-                            }
-                        });
-
-                        ATableView tableView = (ATableView) layout
-                                .findViewById(R.id.showfang);
-                        tableView.init(ATableView.ATableViewStyle.Plain);
-                        ShowFang showFang = new ShowFang(s);
-                        SingletonData.getInstance().pushShowFang(showFang);
-                        tableView.setDataSource(showFang.getDataSource());
-                        tableView.setDelegate(showFang.getDelegate());
-                        tableView.enableHeaderView(true);
-//                        tableView.setBackgroundResource(R.drawable.round_win);
-                        // 下面我们要考虑了，我怎样将我的layout加入到PopupWindow中呢？？？很简单
-
-                        // 设置layout在PopupWindow中显示的位置
-
-                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT);
-                        int margin = 50;
-                        // int num =
-                        // SingletonData.getInstance().getShowFangNum();
-
-                        // int screenHeight = display.getHeight();
-                        Point p = new Point();
-                        display.getSize(p);
-                        int screenHeight = p.y;
-                        if (rect.top < screenHeight / 2.0) {
-                            params.setMargins(margin,
-                                    rect.top + 20, margin, margin);
-                        } else {
-                            params.gravity = Gravity.BOTTOM;
-                            params.setMargins(
-                                    margin,
-                                    margin,
-                                    margin,
-                                    (screenHeight - rect.top) + 20);
-                        }
-                        tableView.setLayoutParams(params);
-                        layout_.addView(layout);
-                        SingletonData.getInstance().getLittleWindows()
-                                .add(layout);
+                        LittleTableViewWindow window = new LittleTableViewWindow(s, rect);
+                        window.show(SingletonData.getInstance().fragmentManager);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
