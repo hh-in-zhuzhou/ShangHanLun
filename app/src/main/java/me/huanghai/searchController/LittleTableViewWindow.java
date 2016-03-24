@@ -32,7 +32,7 @@ public class LittleTableViewWindow extends Fragment {
     private ViewGroup mGroup;
     private String yao;
     private Rect rect;
-    private String tag = "littleTableView";
+    private String tag = "littleWindow";
 
     public LittleTableViewWindow() {
     }
@@ -45,7 +45,7 @@ public class LittleTableViewWindow extends Fragment {
     public void show(FragmentManager manager) {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
-        ft.addToBackStack(null);
+        ft.addToBackStack(tag);
         ft.commit();
     }
 

@@ -57,7 +57,7 @@ public class ActionSheet extends Fragment implements OnClickListener {
         mDismissed = false;
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
-        ft.addToBackStack(null);
+        ft.addToBackStack("actionSheet");
         ft.commit();
     }
 

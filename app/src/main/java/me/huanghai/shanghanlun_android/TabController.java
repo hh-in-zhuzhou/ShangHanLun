@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,16 +86,15 @@ public class TabController extends Activity {
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        List<View> vs = SingletonData.getInstance().getLittleWindows();
-        if (vs.size() > 0) {
-            View view = vs.get(vs.size() - 1);
-            ViewGroup layout_ = (ViewGroup) SingletonData.getInstance()
-                    .getMask();
-            layout_.removeView(view);
-            vs.remove(view);
-            return false;
+        int index = fragmentManager.getBackStackEntryCount() - 1;
+        if (index >= 0) {
+            FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(index);
+            String tag = entry.getName();
+            if (tag != null && (tag.equals("littleWindow") || tag.equals("actionSheet"))) {
+                Log.d("onKeyDown", "onKeyDown: littleWindow ");
+                return super.onKeyDown(keyCode, event);
+            }
         }
-
         int fragId = radioGroup.getCheckedRadioButtonId();
         Fragment frag = fragments.get(fragmentsMap.get(fragId));
         if (keyCode == KeyEvent.KEYCODE_BACK && frag instanceof ShowFragment) {

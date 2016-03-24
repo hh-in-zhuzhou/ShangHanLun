@@ -34,7 +34,7 @@ public class LittleTextViewWindow extends Fragment {
     private ViewGroup mGroup;
     private String yao;
     private Rect rect;
-    private String tag = "littleTextView";
+    private String tag = "littleWindow";
 
     public LittleTextViewWindow() {
     }
@@ -47,7 +47,7 @@ public class LittleTextViewWindow extends Fragment {
     public void show(FragmentManager manager) {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
-        ft.addToBackStack(null);
+        ft.addToBackStack(tag);
         ft.commit();
     }
 
