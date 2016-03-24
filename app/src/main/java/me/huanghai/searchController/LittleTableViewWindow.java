@@ -96,16 +96,27 @@ public class LittleTableViewWindow extends Fragment {
 
         // 设置layout在PopupWindow中显示的位置
 
+        ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
+
+        int border = 50;
+        FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         int margin = 50;
-
         int screenHeight = mGroup.getHeight();
-        int mid = rect.top + rect.height() / 2;
-        if (mid < screenHeight / 2.0) {
+        int screenWidth = mGroup.getWidth();
+        int midY = rect.top + rect.height() / 2;
+        int midX = rect.left + rect.width() / 2;
+        if (midY < screenHeight / 2.0) {
             params.setMargins(margin,
-                    rect.top + rect.height() + 20, margin, margin);
+                    rect.top + rect.height() + border, margin, margin);
+            arrowParams.setMargins(
+                    midX - border / 2,
+                    rect.top + rect.height() + 3,
+                    screenWidth - midX - border / 2,
+                    screenHeight - rect.top - rect.height() - border - 3);
+            arrow.setDirection(ArrowView.UP);
         } else {
             params.gravity = Gravity.BOTTOM;
             Rect dispRect = new Rect();
@@ -115,9 +126,16 @@ public class LittleTableViewWindow extends Fragment {
                     margin,
                     top + 8,
                     margin,
-                    (screenHeight - rect.top) + 20);
+                    (screenHeight - rect.top) + border);
+            arrowParams.setMargins(
+                    midX - border / 2,
+                    rect.top - border - 3,
+                    screenWidth - midX - border / 2,
+                    screenHeight - rect.top + 3);
+            arrow.setDirection(ArrowView.DOWN);
         }
         tableView.setLayoutParams(params);
+        arrow.setLayoutParams(arrowParams);
         mGroup.addView(view);
         return super.onCreateView(inflater, container, savedInstanceState);
     }

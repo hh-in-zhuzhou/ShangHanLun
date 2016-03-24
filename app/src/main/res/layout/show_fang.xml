@@ -21,4 +21,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_win"
         android:layout_gravity="bottom" />
+
+    <me.huanghai.searchController.ArrowView
+        android:id="@+id/arrow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>

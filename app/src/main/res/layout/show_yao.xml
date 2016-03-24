@@ -33,4 +33,9 @@
             android:textSize="18dp" />
     </ScrollView>
 
+    <me.huanghai.searchController.ArrowView
+        android:id="@+id/arrow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </FrameLayout>
