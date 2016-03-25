@@ -239,7 +239,7 @@ public class SingletonData {
             yao[i] = String.format("%d、%s", i + 1, tmp);
         }
         yaoData = new ArrayList<HH2SectionData>();
-        yaoData.add(new HH2SectionData(yao, 0, "伤寒所有药物"));
+        yaoData.add(new HH2SectionData(yao, 0, "伤寒金匮所有药物"));
 
         allYao = new ArrayList<String>();
         for (HH2SectionData sec : yaoData) {

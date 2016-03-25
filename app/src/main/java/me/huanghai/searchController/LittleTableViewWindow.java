@@ -175,7 +175,7 @@ public class LittleTableViewWindow extends LittleWindow {
 
         int screenHeight = mGroup.getHeight();
         int screenWidth = mGroup.getWidth();
-        int margin = Math.min(50, screenWidth / 16);
+        int margin = Math.min(50, screenWidth / 18);
         int border = margin;
         FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(

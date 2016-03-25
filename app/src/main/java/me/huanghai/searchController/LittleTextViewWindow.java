@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
+import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Gravity;
@@ -67,11 +68,65 @@ public class LittleTextViewWindow extends LittleWindow {
     }
 
     public void setYao(String yao) {
-        this.yao = yao;
+        SingletonData single = SingletonData.getInstance();
+        Map<String, String> fangDict = single.getYaoAliasDict();
+        String right = fangDict.get(yao);
+        if (right == null) {
+            right = yao;
+        }
+        this.yao = right;
     }
 
     public void setRect(Rect rect) {
         this.rect = rect;
+    }
+
+    public boolean isInYaoContext() {
+        SpannableStringBuilder builder = attributedString;
+        ClickableSpan[] spans = builder.getSpans(0,
+                builder.length(), ClickableSpan.class);
+        Map<String, String> dict = SingletonData.getInstance().getYaoAliasDict();
+        if (spans.length > 0) {
+            ClickableSpan span = spans[0];
+            int start = builder.getSpanStart(span);
+            int end = builder.getSpanEnd(span);
+            String unit = builder.subSequence(start, end)
+                    .toString();
+            String left = dict.get(unit);
+            if (left == null) {
+                left = unit;
+            }
+            if (SingletonData.getInstance().getAllYao().contains(left)
+                    && start > 0
+                    && builder.toString().substring(start - 1, start).equals("、")) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected boolean onlyShowRelatedFang() {
+        SingletonData single = SingletonData.getInstance();
+        Map<String, String> yaoDict = single.getYaoAliasDict();
+        String right = yao;
+        if (single.littleWindowStack.size() > 0) {
+            LittleWindow window = single.littleWindowStack.get(single.littleWindowStack.size() - 1);
+            String text_ = window.getSearchString();
+            String text = yaoDict.get(text_);
+            if (text == null) {
+                text = text_;
+            }
+            if (text.equals(right) && isInYaoContext()) {
+                return true;
+            }
+        } else {
+            ShowFragment showFragment = single.curFragment;
+            if (showFragment != null && showFragment.getIsContentOpen() == true) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Nullable
@@ -102,20 +157,25 @@ public class LittleTextViewWindow extends LittleWindow {
         if (right == null) {
             right = s;
         }
-        for (HH2SectionData sec : single.getYaoData()) {
-            for (DataItem item : sec.getData()) {
-                String yao__ = item.getYaoList()[0];
-                String left = yaoDict.get(yao__);
-                if (left == null) {
-                    left = yao__;
-                }
-                if (left.equals(right)) {
-                    spanString.append(item.getAttributedText());
+
+        if (!onlyShowRelatedFang()) {
+            for (HH2SectionData sec : single.getYaoData()) {
+                for (DataItem item : sec.getData()) {
+                    String yao__ = item.getYaoList()[0];
+                    String left = yaoDict.get(yao__);
+                    if (left == null) {
+                        left = yao__;
+                    }
+                    if (left.equals(right)) {
+                        spanString.append(item.getAttributedText());
+                    }
                 }
             }
+            spanString.append("\n\n");
         }
 
         int count = 0;
+        int index = 0;
         for (HH2SectionData sec : SingletonData.getInstance()
                 .getFang()) {
             SpannableStringBuilder spanIn = new SpannableStringBuilder();
@@ -134,11 +194,16 @@ public class LittleTextViewWindow extends LittleWindow {
                     }
                 }
             }
+            if (index > 0) {
+                spanString.append("\n\n");
+            }
+            spanString.append(sec.getHeader()
+                    + " 凡" + count + "方");
             if (count > 0) {
-                spanString.append("\n\n" + sec.getHeader()
-                        + " 凡" + count + "方\n");
+                spanString.append("\n");
                 spanString.append(spanIn);
             }
+            index++;
         }
 
         textView.setText(spanString);
@@ -148,7 +213,7 @@ public class LittleTextViewWindow extends LittleWindow {
 
         int screenHeight = mGroup.getHeight();
         int screenWidth = mGroup.getWidth();
-        int margin = Math.min(50, screenWidth / 16);
+        int margin = Math.min(50, screenWidth / 18);
         int border = margin;
         FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(

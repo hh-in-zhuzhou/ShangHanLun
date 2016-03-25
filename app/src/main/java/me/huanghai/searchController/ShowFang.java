@@ -125,7 +125,7 @@ public class ShowFang {
             label.setBackgroundColor(Color.WHITE);
             label.setText(sd.get(indexPath.getRow()));
 
-            label.setMaxLines(120);
+            label.setMaxLines(320);
             label.setMovementMethod(LocalLinkMovementMethod.getInstance());
             // label.setHighlightColor(Color.BLUE);
             // set detail text. careful, detail text is not present on every
