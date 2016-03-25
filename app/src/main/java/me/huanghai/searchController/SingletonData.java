@@ -1,6 +1,7 @@
 package me.huanghai.searchController;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,7 +32,9 @@ public class SingletonData {
     protected List<String> allYao;
     protected List<String> allFang;
 
+    public ShowFragment curFragment;
     public Activity curActivity;
+    public List<LittleWindow> littleWindowStack = new ArrayList<>();
 
     public List<String> getAllYao() {
         return allYao;

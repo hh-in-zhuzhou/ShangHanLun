@@ -67,6 +67,12 @@ public class ShowFragment extends Fragment implements TextWatcher {
         dataBak = d;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SingletonData.getInstance().curFragment = this;
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         String title = null;

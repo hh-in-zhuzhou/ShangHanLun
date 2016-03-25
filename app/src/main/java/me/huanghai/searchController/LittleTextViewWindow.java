@@ -28,13 +28,24 @@ import me.huanghai.shanghanlun_android.R;
 /**
  * Created by hh on 16/3/24.
  */
-public class LittleTextViewWindow extends Fragment {
+public class LittleTextViewWindow extends LittleWindow {
 
     private View view;
     private ViewGroup mGroup;
+
     private String yao;
+    private SpannableStringBuilder attributedString;
+
     private Rect rect;
     private String tag = "littleWindow";
+
+    public String getSearchString() {
+        return yao;
+    }
+
+    public void setAttributedString(SpannableStringBuilder attributedString) {
+        this.attributedString = attributedString;
+    }
 
     public LittleTextViewWindow() {
     }
@@ -44,6 +55,7 @@ public class LittleTextViewWindow extends Fragment {
         ft.add(this, tag);
         ft.addToBackStack(tag);
         ft.commit();
+        SingletonData.getInstance().littleWindowStack.add(this);
     }
 
     public void dismiss() {
@@ -51,6 +63,7 @@ public class LittleTextViewWindow extends Fragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
         ft.commit();
+        SingletonData.getInstance().littleWindowStack.remove(this);
     }
 
     public void setYao(String yao) {

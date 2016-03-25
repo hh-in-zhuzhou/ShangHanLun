@@ -120,6 +120,7 @@ public class Helper {
 //                        callBack.onYaoCallBack(rect, s);
                         LittleTextViewWindow window = new LittleTextViewWindow();
                         window.setYao(s);
+                        window.setAttributedString(new SpannableStringBuilder(tv.getText()));
                         window.setRect(rect);
                         window.show(SingletonData.getInstance().curActivity.getFragmentManager());
                     }
@@ -140,7 +141,8 @@ public class Helper {
                         Rect rect = getTextRect(this, (TextView) widget);
 
                         LittleTableViewWindow window = new LittleTableViewWindow();
-                        window.setYao(s);
+                        window.setFang(s);
+                        window.setAttributedString(new SpannableStringBuilder(tv.getText()));
                         window.setRect(rect);
                         window.show(SingletonData.getInstance().curActivity.getFragmentManager());
                     }
@@ -241,4 +243,5 @@ public class Helper {
         map.put("h", Color.TRANSPARENT);
         return map.get(strClass);
     }
+
 }

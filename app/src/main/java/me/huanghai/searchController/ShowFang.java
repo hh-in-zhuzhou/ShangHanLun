@@ -1,5 +1,6 @@
 package me.huanghai.searchController;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 
@@ -31,7 +32,7 @@ public class ShowFang {
         return dl;
     }
 
-    public ShowFang(String fangName_) {
+    public ShowFang(String fangName_, boolean onlyShowRelatedContent) {
         fangName = fangName_;
         SingletonData single = SingletonData.getInstance();
         data = new ArrayList<ArrayList<SpannableStringBuilder>>();
@@ -42,24 +43,27 @@ public class ShowFang {
         if (right == null) {
             right = fangName_;
         }
-        for (HH2SectionData sec : single.getFang()) {
-            found = false;
-            for (DataItem item : sec.getData()) {
-                String string = item.getFangList()[0];
-                String left = fangDict.get(string);
-                if (left == null) {
-                    left = string;
-                }
-                if (left.equals(right)) {
-                    headers.add(sec.getHeader());
-                    ArrayList<SpannableStringBuilder> obj = new ArrayList<SpannableStringBuilder>();
-                    obj.add(item.getAttributedText());
-                    data.add(obj);
-                    found = true;
-                    break;
-                }
-                if (found) {
-                    break;
+
+        if (!onlyShowRelatedContent) {
+            for (HH2SectionData sec : single.getFang()) {
+                found = false;
+                for (DataItem item : sec.getData()) {
+                    String string = item.getFangList()[0];
+                    String left = fangDict.get(string);
+                    if (left == null) {
+                        left = string;
+                    }
+                    if (left.equals(right)) {
+                        headers.add(sec.getHeader());
+                        ArrayList<SpannableStringBuilder> obj = new ArrayList<SpannableStringBuilder>();
+                        obj.add(item.getAttributedText());
+                        data.add(obj);
+                        found = true;
+                        break;
+                    }
+                    if (found) {
+                        break;
+                    }
                 }
             }
         }
