@@ -29,8 +29,9 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
     protected List<SpannableStringBuilder> linksStrings;
 
     public FangFragment() {
-        super(SingletonData.getInstance().getFang());
+        super();
         // TODO Auto-generated constructor stub
+        resetData(SingletonData.getInstance().getFang());
         isContentOpen = true;
         dataSource = new SubDataSource();
         delegate = new SubDelegate();

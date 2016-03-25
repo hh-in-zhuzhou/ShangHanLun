@@ -39,11 +39,6 @@ public class LittleTextViewWindow extends Fragment {
     public LittleTextViewWindow() {
     }
 
-    public LittleTextViewWindow(String s, Rect rect_) {
-        yao = s;
-        rect = rect_;
-    }
-
     public void show(FragmentManager manager) {
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
@@ -56,6 +51,14 @@ public class LittleTextViewWindow extends Fragment {
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.remove(this);
         ft.commit();
+    }
+
+    public void setYao(String yao) {
+        this.yao = yao;
+    }
+
+    public void setRect(Rect rect) {
+        this.rect = rect;
     }
 
     @Nullable
@@ -130,24 +133,25 @@ public class LittleTextViewWindow extends Fragment {
                 .getInstance());
         ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
 
-        int border = 50;
+        int screenHeight = mGroup.getHeight();
+        int screenWidth = mGroup.getWidth();
+        int margin = Math.min(50, screenWidth / 15);
+        int border = margin;
         FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-        int margin = 50;
-        int screenHeight = mGroup.getHeight();
-        int screenWidth = mGroup.getWidth();
         int midY = rect.top + rect.height() / 2;
         int midX = rect.left + rect.width() / 2;
+        int offset = 3;
         if (midY < screenHeight / 2.0) {
             params.setMargins(margin,
                     rect.top + rect.height() + border, margin, margin);
             arrowParams.setMargins(
                     midX - border / 2,
-                    rect.top + rect.height() + 3,
+                    rect.top + rect.height() + offset,
                     screenWidth - midX - border / 2,
-                    screenHeight - rect.top - rect.height() - border - 3);
+                    screenHeight - rect.top - rect.height() - border - offset);
             arrow.setDirection(ArrowView.UP);
         } else {
             params.gravity = Gravity.BOTTOM;
@@ -161,9 +165,9 @@ public class LittleTextViewWindow extends Fragment {
                     (screenHeight - rect.top) + border);
             arrowParams.setMargins(
                     midX - border / 2,
-                    rect.top - border - 3,
+                    rect.top - border - offset,
                     screenWidth - midX - border / 2,
-                    screenHeight - rect.top + 3);
+                    screenHeight - rect.top + offset);
             arrow.setDirection(ArrowView.DOWN);
         }
         ScrollView scroll = (ScrollView) view

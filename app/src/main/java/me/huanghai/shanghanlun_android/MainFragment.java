@@ -16,8 +16,9 @@ import me.huanghai.searchController.SingletonData;
 public class MainFragment extends ShowFragment implements ActionSheet.ActionSheetListener {
 
     public MainFragment() {
-        super(SingletonData.getInstance().getContent());
+        super();
         // TODO Auto-generated constructor stub
+        resetData(SingletonData.getInstance().getContent());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

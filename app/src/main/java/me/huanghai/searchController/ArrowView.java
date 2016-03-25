@@ -24,14 +24,17 @@ public class ArrowView extends View {
 
     public ArrowView(Context context) {
         super(context);
+        initPaint();
     }
 
     public ArrowView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initPaint();
     }
 
     public ArrowView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initPaint();
     }
 
     protected void initPaint() {
@@ -44,7 +47,7 @@ public class ArrowView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        initPaint();
+        border = Math.min(getWidth(), getHeight());
         Path path = new Path();
         if (direction == UP) {
             path.moveTo(0, border);

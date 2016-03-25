@@ -26,8 +26,9 @@ public class YaoFragment extends ShowFragment {
     protected SpannableStringBuilder linksString;
 
     public YaoFragment() {
-        super(SingletonData.getInstance().getYaoData());
+        super();
         // TODO Auto-generated constructor stub
+        resetData(SingletonData.getInstance().getYaoData());
         isContentOpen = true;
         dataSource = new SubDataSource();
         delegate = new SubDelegate();

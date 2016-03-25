@@ -63,11 +63,6 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public ShowFragment() {
     }
 
-    public ShowFragment(List<HH2SectionData> d) {
-        data = d;
-        dataBak = d;
-    }
-
     public void resetData(List<HH2SectionData> d) {
         data = d;
         dataBak = d;

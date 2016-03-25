@@ -36,8 +36,8 @@ public class SettingsFragment extends Fragment {
             "检查有无新版发布",
     };
     private String[] aboutInfo = {
-            "3.0 beta 15",
-            "修复了安卓5.0+下的问题",
+            "3.0 beta 16",
+            "做出了小箭头",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",

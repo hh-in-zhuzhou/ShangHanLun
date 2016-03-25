@@ -118,7 +118,9 @@ public class Helper {
                         System.out.println("tapped:" + s);
                         Rect rect = getTextRect(this, (TextView) widget);
 //                        callBack.onYaoCallBack(rect, s);
-                        LittleTextViewWindow window = new LittleTextViewWindow(s, rect);
+                        LittleTextViewWindow window = new LittleTextViewWindow();
+                        window.setYao(s);
+                        window.setRect(rect);
                         window.show(SingletonData.getInstance().fragmentManager);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -140,7 +142,9 @@ public class Helper {
                         System.out.println("tapped:" + s);
                         Rect rect = getTextRect(this, (TextView) widget);
 
-                        LittleTableViewWindow window = new LittleTableViewWindow(s, rect);
+                        LittleTableViewWindow window = new LittleTableViewWindow();
+                        window.setYao(s);
+                        window.setRect(rect);
                         window.show(SingletonData.getInstance().fragmentManager);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
