@@ -135,7 +135,7 @@ public class LittleTextViewWindow extends Fragment {
 
         int screenHeight = mGroup.getHeight();
         int screenWidth = mGroup.getWidth();
-        int margin = Math.min(50, screenWidth / 15);
+        int margin = Math.min(50, screenWidth / 16);
         int border = margin;
         FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(

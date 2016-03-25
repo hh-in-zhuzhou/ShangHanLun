@@ -41,7 +41,6 @@ import java.util.regex.Pattern;
 import me.huanghai.shanghanlun_android.ClearEditText;
 import me.huanghai.shanghanlun_android.R;
 
-
 public class ShowFragment extends Fragment implements TextWatcher {
     protected String title;
     protected String searchText = null;

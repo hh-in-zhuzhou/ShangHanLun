@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +36,13 @@ public class TabController extends Activity {
         super.onDestroy();
         // The activity is about to be destroyed.
         SingletonData.getInstance().savePreferences();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SingletonData.getInstance().curActivity = this;
+        Log.e("TabController", "onResume!!!!!");
     }
 
     // @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -60,7 +70,6 @@ public class TabController extends Activity {
 
         // mContainer = (ViewGroup) findViewById(R.id.content);
         fragmentManager = getFragmentManager();
-        SingletonData.getInstance().fragmentManager = fragmentManager;
         radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
         radioGroup.check(R.id.firstContentTab);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -114,9 +123,10 @@ public class TabController extends Activity {
 
                 @Override
                 public void uncaughtException(Thread t, Throwable e) {
-                    // logger.error("Uncaught Exception detected in thread {}",
-                    // t, e);
-                    // System.out.println("Unc");
+//                     logger.error("Uncaught Exception detected in thread {}",
+//                     t, e);
+                    Log.e("Shanghanlun", "Uncaught Exception detected in thread {}" +
+                            t.toString() + e.toString());
                 }
             });
         } catch (SecurityException e) {

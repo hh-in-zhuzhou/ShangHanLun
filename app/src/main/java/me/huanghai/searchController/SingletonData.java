@@ -1,5 +1,6 @@
 package me.huanghai.searchController;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,8 +24,6 @@ public class SingletonData {
     private ArrayList<HH2SectionData> fang;
     private String[] yao;
     private ArrayList<HH2SectionData> yaoData;
-    private int screenWidth = -1;
-    private int screenHeight = -1;
     protected boolean isSimple = true; // 控制是否独用398条或者全文。
     protected boolean showJinkui = true; // 控制是否显示金匮内容。
     protected Map<String, String> yaoAliasDict;
@@ -32,13 +31,7 @@ public class SingletonData {
     protected List<String> allYao;
     protected List<String> allFang;
 
-    public FragmentManager fragmentManager;
-
-    protected List<View> littleWindows = new ArrayList<View>();
-
-    public List<View> getLittleWindows() {
-        return littleWindows;
-    }
+    public Activity curActivity;
 
     public List<String> getAllYao() {
         return allYao;
@@ -100,24 +93,6 @@ public class SingletonData {
 
     public void setShowJinkui(boolean show) {
         showJinkui = show;
-    }
-
-    public int getScreenWidth() {
-        if (screenWidth == -1) {
-            WindowManager wm = (WindowManager) MyApplication.getAppContext()
-                    .getSystemService(Context.WINDOW_SERVICE);
-            screenWidth = wm.getDefaultDisplay().getWidth();
-        }
-        return screenWidth;
-    }
-
-    public int getScreenHeight() {
-        if (screenHeight == -1) {
-            WindowManager wm = (WindowManager) MyApplication.getAppContext()
-                    .getSystemService(Context.WINDOW_SERVICE);
-            screenHeight = wm.getDefaultDisplay().getHeight();
-        }
-        return screenHeight;
     }
 
     public ArrayList<HH2SectionData> getContent() {

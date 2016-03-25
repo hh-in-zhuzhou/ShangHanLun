@@ -121,7 +121,7 @@ public class Helper {
                         LittleTextViewWindow window = new LittleTextViewWindow();
                         window.setYao(s);
                         window.setRect(rect);
-                        window.show(SingletonData.getInstance().fragmentManager);
+                        window.show(SingletonData.getInstance().curActivity.getFragmentManager());
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -131,9 +131,6 @@ public class Helper {
                     @Override
                     public void onClick(View widget) {
                         // TODO Auto-generated method stub
-                        // if (SingletonData.getInstance().hasShowFang()) {
-                        // return;
-                        // }
                         UILabel tv = (UILabel) widget;
                         String s = tv
                                 .getText()
@@ -145,7 +142,7 @@ public class Helper {
                         LittleTableViewWindow window = new LittleTableViewWindow();
                         window.setYao(s);
                         window.setRect(rect);
-                        window.show(SingletonData.getInstance().fragmentManager);
+                        window.show(SingletonData.getInstance().curActivity.getFragmentManager());
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }

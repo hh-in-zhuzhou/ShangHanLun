@@ -5,9 +5,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
+
+import me.huanghai.searchController.SingletonData;
 
 public class MainActivity extends Activity {
 
@@ -17,10 +20,18 @@ public class MainActivity extends Activity {
 
     // private ViewGroup mContainer;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SingletonData.getInstance().curActivity = this;
+        Log.e("MainActivity", "onResume!!!!!");
+    }
+
     // @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("MainActivity", "onCreate!!!!!");
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.tabcontroller);
 
