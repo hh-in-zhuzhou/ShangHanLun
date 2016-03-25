@@ -244,4 +244,22 @@ public class Helper {
         return map.get(strClass);
     }
 
+    public static int strLengh(String str) {
+        if (str == null) {
+            return 0;
+        }
+        return str.length();
+    }
+
+    public static String getAliasString(Map<String, String> dict, String key) {
+        if (dict == null || key == null) {
+            return null;
+        }
+        String str = dict.get(key);
+        if (str == null) {
+            return key;
+        }
+        return str;
+    }
+
 }

@@ -29,6 +29,11 @@ public class ATableViewDelegate {
         return;
     }
 
+    // add by me at 2016-3-25
+    public void postDidSelectCell(ATableView tableView, ATableViewCell cell, NSIndexPath indexPath) {
+        return;
+    }
+
     //add by me at 2015-5-3
     public void clickHeaderForSection(ATableView tableView, View headerView, int section) {
         return;

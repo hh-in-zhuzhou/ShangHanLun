@@ -3,9 +3,11 @@ package me.huanghai.shanghanlun_android;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
 import com.nakardo.atableview.view.ATableView;
+import com.nakardo.atableview.view.ATableViewCell;
 
 import me.huanghai.searchController.DataItem;
 import me.huanghai.searchController.HH2SectionData;
@@ -15,10 +17,17 @@ import me.huanghai.searchController.SingletonData;
 
 public class MainFragment extends ShowFragment implements ActionSheet.ActionSheetListener {
 
+    // 这4成员变量用来实现查看上下文功能
+    ATableViewCell lastCell;
+    String lastSearchText;
+    int lastPostion;
+    int lastTop;
+
     public MainFragment() {
         super();
         // TODO Auto-generated constructor stub
         resetData(SingletonData.getInstance().getContent());
+        delegate = new SubDelegate();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -61,10 +70,13 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
                 }
                 tableView.setSelectionFromTop(num, (int) (44 * tableView
                         .getResources().getDisplayMetrics().density));
+//                tableView.smoothScrollToPositionFromTop(num, (int) (44 * tableView
+//                        .getResources().getDisplayMetrics().density));
             }
             return;
         }
         super.setSearchText(str);
+        SingletonData.getInstance().isSeeingContextInSearchMode = false;
     }
 
     @Override
@@ -73,12 +85,16 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
         DataItem item = data.get(indexPath.getSection()).getData()
                 .get(indexPath.getRow());
         String[] fangList = item.getFangList();
-        String[] menuList = new String[fangList.length + 3];
+        boolean strIsNull = Helper.strLengh(searchText) == 0;
+        String[] menuList = new String[fangList.length + (strIsNull ? 3 : 4)];
         menuList[0] = "拷贝本条";
         menuList[1] = "拷贝本章全部内容";
         menuList[2] = "拷贝全部结果";
         for (int i = 0; i < fangList.length; i++) {
             menuList[3 + i] = "查看“" + fangList[i] + "”";
+        }
+        if (!strIsNull) {
+            menuList[fangList.length + 3] = "查看上下文";
         }
 
         ActionSheet.createBuilder(getActivity(), getFragmentManager())
@@ -96,9 +112,9 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         // TODO Auto-generated method stub
+        DataItem item = data.get(curIndexPath.getSection()).getData()
+                .get(curIndexPath.getRow());
         if (index < 3) {
-            DataItem item = data.get(curIndexPath.getSection()).getData()
-                    .get(curIndexPath.getRow());
             if (index == 0) {
                 putStringToClipboard(item.getAttributedText().toString());
             } else if (index == 1) {
@@ -127,12 +143,50 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
                 }
             }
             return;
+        } else {
+            if (Helper.strLengh(searchText) > 0 && index == actionSheet.getOtherButtonTitles().length - 1) {
+                NSIndexPath ip = item.getIndexPath();
+                int top = lastCell.getTop();
+                lastTop = top;
+                lastSearchText = searchText;
+                lastPostion = tableView.getPositionForView(lastCell);
+                setSearchText("");
+                searchEditText.setText("");
+                tableView.reloadData();
+
+                int pos = 0;
+                for (int i = 0; i < ip.getSection(); i++) {
+                    pos += data.get(i).getData().size() + 1;
+                }
+                pos += 1 + ip.getRow();
+                tableView.setSelectionFromTop(pos, top);
+                SingletonData.getInstance().isSeeingContextInSearchMode = true;
+                Toast.makeText(getActivity(), "按后退键可返回之前的搜索", Toast.LENGTH_SHORT).show();
+
+                return;
+            }
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            String fang = actionSheet.getOtherButtonTitle(index);
+            fang = fang.substring(3, fang.length() - 1);
+            intent.putExtra("title", fang);
+            intent.putExtra("isFang", "true");
+            getActivity().startActivity(intent);
         }
-        Intent intent = new Intent(getActivity(), MainActivity.class);
-        String fang = actionSheet.getOtherButtonTitle(index);
-        fang = fang.substring(3, fang.length() - 1);
-        intent.putExtra("title", fang);
-        intent.putExtra("isFang", "true");
-        getActivity().startActivity(intent);
+    }
+
+    public void goBack() {
+        searchEditText.setText(lastSearchText);
+//        setSearchText(lastSearchText);
+        tableView.reloadData();
+        tableView.setSelectionFromTop(lastPostion, lastTop);
+
+    }
+
+    private class SubDelegate extends SampleATableViewDelegate {
+        @Override
+        public void postDidSelectCell(ATableView tableView, ATableViewCell cell, NSIndexPath indexPath) {
+            super.postDidSelectCell(tableView, cell, indexPath);
+            lastCell = cell;
+        }
     }
 }

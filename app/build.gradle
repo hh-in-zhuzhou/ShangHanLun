@@ -8,8 +8,8 @@ android {
         applicationId "me.huanghai.shanghanlun_android"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 18
+        versionName "3.0"
     }
     buildTypes {
         release {

@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,7 +43,12 @@ public class TabController extends Activity {
     protected void onResume() {
         super.onResume();
         SingletonData.getInstance().curActivity = this;
-        Log.e("TabController", "onResume!!!!!");
+    }
+
+    @NonNull
+    @Override
+    public FragmentManager getFragmentManager() {
+        return super.getFragmentManager();
     }
 
     // @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -100,13 +106,21 @@ public class TabController extends Activity {
             FragmentManager.BackStackEntry entry = fragmentManager.getBackStackEntryAt(index);
             String tag = entry.getName();
             if (tag != null && (tag.equals("littleWindow") || tag.equals("actionSheet"))) {
-                Log.d("onKeyDown", "onKeyDown: littleWindow ");
                 return super.onKeyDown(keyCode, event);
             }
         }
+
+
         int fragId = radioGroup.getCheckedRadioButtonId();
         Fragment frag = fragments.get(fragmentsMap.get(fragId));
         if (keyCode == KeyEvent.KEYCODE_BACK && frag instanceof ShowFragment) {
+
+            if (frag instanceof MainFragment && SingletonData.getInstance().isSeeingContextInSearchMode) {
+                MainFragment fragment = (MainFragment) frag;
+                fragment.goBack();
+                return false;
+            }
+
             ShowFragment fragment = (ShowFragment) frag;
             if (fragment.getIsContentOpen()) {
                 fragment.setIsContentOpen(false);
@@ -127,6 +141,7 @@ public class TabController extends Activity {
 //                     t, e);
                     Log.e("Shanghanlun", "Uncaught Exception detected in thread {}" +
                             t.toString() + e.toString());
+                    e.printStackTrace();
                 }
             });
         } catch (SecurityException e) {

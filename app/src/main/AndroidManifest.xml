@@ -1,7 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.huanghai.shanghanlun_android"
-    android:versionCode="16"
-    android:versionName="3.0">
+    package="me.huanghai.shanghanlun_android">
 
     <application
         android:allowBackup="true"
@@ -17,7 +15,6 @@
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,10 +22,10 @@
             android:name="me.huanghai.shanghanlun_android.MainActivity"
             android:label="another"
             android:windowSoftInputMode="adjustPan"></activity>
-        <activity
+        <!--activity
             android:name="me.huanghai.shanghanlun_android.NotesShow"
             android:label=""
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"></activity-->
     </application>
 
 </manifest>

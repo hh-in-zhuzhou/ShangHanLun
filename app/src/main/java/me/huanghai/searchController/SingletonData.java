@@ -36,6 +36,9 @@ public class SingletonData {
     public Activity curActivity;
     public List<LittleWindow> littleWindowStack = new ArrayList<>();
 
+    // status
+    public boolean isSeeingContextInSearchMode = false;
+
     public List<String> getAllYao() {
         return allYao;
     }

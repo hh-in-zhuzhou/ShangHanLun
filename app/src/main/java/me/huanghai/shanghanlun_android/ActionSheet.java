@@ -300,7 +300,7 @@ public class ActionSheet extends Fragment implements OnClickListener {
         return getArguments().getString(ARG_CANCEL_BUTTON_TITLE);
     }
 
-    private String[] getOtherButtonTitles() {
+    public String[] getOtherButtonTitles() {
         return getArguments().getStringArray(ARG_OTHER_BUTTON_TITLES);
     }
 

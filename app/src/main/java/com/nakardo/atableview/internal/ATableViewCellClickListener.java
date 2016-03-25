@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.nakardo.atableview.foundation.NSIndexPath;
 import com.nakardo.atableview.protocol.ATableViewDelegate;
 import com.nakardo.atableview.view.ATableView;
 import com.nakardo.atableview.view.ATableViewCell;
@@ -25,7 +26,9 @@ public class ATableViewCellClickListener implements OnItemClickListener {
 
             // don't throw up selection events if it's not allowed by the table configuration.
             if (tableView.getAllowsSelection()) {
-                delegate.didSelectRowAtIndexPath(mTableView, mTableView.getInternalAdapter().getIndexPath(pos));
+                NSIndexPath ip = mTableView.getInternalAdapter().getIndexPath(pos);
+                delegate.didSelectRowAtIndexPath(mTableView, ip);
+                delegate.postDidSelectCell(mTableView, (ATableViewCell) view, ip);
             }
         } else {
             if (mTableView.needPinnedHeader() && adapter.getFirstVisiblePosition() == pos && mTableView.mHeaderView.getVisibility() != View.GONE) {
