@@ -230,7 +230,8 @@ public class ShowFragment extends Fragment implements TextWatcher {
                                 if (it == null) {
                                     it = item_;
                                 }
-                                found = it.contains(right);
+//                                found = it.contains(right);
+                                found = it.equals(right);
                                 if (found) {
                                     break;
                                 }
@@ -402,6 +403,7 @@ public class ShowFragment extends Fragment implements TextWatcher {
                         SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.replace(index - 1, index, "\n");
             }
+
             return builder;
         }
     }

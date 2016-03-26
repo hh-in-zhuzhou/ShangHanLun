@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.nakardo.atableview.view.ATableView;
 
@@ -134,18 +135,54 @@ public class LittleTableViewWindow extends LittleWindow {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.show_fang, null);
         mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
+        int density = (int) mGroup.getResources().getDisplayMetrics().density;
+        int screenHeight = mGroup.getHeight();
+        int screenWidth = mGroup.getWidth();
+        int margin = Math.min(50, screenWidth / 18);
+        int border = margin;
+        FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        Context context = getActivity();
-        WindowManager wmManager = (WindowManager) context
-                .getSystemService(Context.WINDOW_SERVICE);
-        Display display = wmManager.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        // layout_是整个页面的根framelayout
-        // 这里的main布局是在inflate中加入的哦，以前都是直接this.setContentView()的吧？呵呵
-        // 该方法返回的是一个View的对象，是布局中的根
+        int midY = rect.top + rect.height() / 2;
+        int midX = rect.left + rect.width() / 2;
+        int screenMidX = screenWidth / 2;
+        int screenMidy = screenHeight / 2;
+
+        int offset = 0;
+        int direction = ArrowView.UP;
+        if (midY < screenMidy) {
+            view = inflater.inflate(R.layout.show_fang, null);
+            params.setMargins(margin,
+                    rect.top + rect.height() + border, margin, margin);
+            arrowParams.setMargins(
+                    midX - border / 2,
+                    rect.top + rect.height() + offset,
+                    screenWidth - midX - border / 2,
+                    screenHeight - rect.top - rect.height() - border - offset);
+            direction = ArrowView.UP;
+        } else {
+            view = inflater.inflate(R.layout.show_fang_2, null);
+            offset = 1;
+            params.gravity = Gravity.BOTTOM;
+            Rect dispRect = new Rect();
+            mGroup.getWindowVisibleDisplayFrame(dispRect);
+            int top = dispRect.top;
+            params.setMargins(
+                    margin,
+                    top + 8,
+                    margin,
+                    (screenHeight - rect.top) + border);
+            arrowParams.setMargins(
+                    midX - border / 2,
+                    rect.top - border - offset,
+                    screenWidth - midX - border / 2,
+                    screenHeight - rect.top + offset);
+            direction = ArrowView.DOWN;
+        }
+
         Button btn = (Button) view.findViewById(R.id.maskbtn);
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -166,53 +203,14 @@ public class LittleTableViewWindow extends LittleWindow {
         tableView.setDataSource(showFang.getDataSource());
         tableView.setDelegate(showFang.getDelegate());
         tableView.enableHeaderView(true);
-//                        tableView.setBackgroundResource(R.drawable.round_win);
-        // 下面我们要考虑了，我怎样将我的layout加入到PopupWindow中呢？？？很简单
-
-        // 设置layout在PopupWindow中显示的位置
 
         ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
+        arrow.setDirection(direction);
 
-        int screenHeight = mGroup.getHeight();
-        int screenWidth = mGroup.getWidth();
-        int margin = Math.min(50, screenWidth / 18);
-        int border = margin;
-        FrameLayout.LayoutParams arrowParams = new FrameLayout.LayoutParams(border, border);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        int btnsWidth = screenWidth / 2 * density - border - 24 * density;
 
-        int midY = rect.top + rect.height() / 2;
-        int midX = rect.left + rect.width() / 2;
-        int offset = 0;
-        if (midY < screenHeight / 2.0) {
-            params.setMargins(margin,
-                    rect.top + rect.height() + border, margin, margin);
-            arrowParams.setMargins(
-                    midX - border / 2,
-                    rect.top + rect.height() + offset,
-                    screenWidth - midX - border / 2,
-                    screenHeight - rect.top - rect.height() - border - offset);
-            arrow.setDirection(ArrowView.UP);
-        } else {
-            offset = 1;
-            params.gravity = Gravity.BOTTOM;
-            Rect dispRect = new Rect();
-            mGroup.getWindowVisibleDisplayFrame(dispRect);
-            int top = dispRect.top;
-            params.setMargins(
-                    margin,
-                    top + 8,
-                    margin,
-                    (screenHeight - rect.top) + border);
-            arrowParams.setMargins(
-                    midX - border / 2,
-                    rect.top - border - offset,
-                    screenWidth - midX - border / 2,
-                    screenHeight - rect.top + offset);
-            arrow.setDirection(ArrowView.DOWN);
-        }
-        tableView.setLayoutParams(params);
+        LinearLayout wrapper = (LinearLayout) view.findViewById(R.id.wrapper);
+        wrapper.setLayoutParams(params);
         arrow.setLayoutParams(arrowParams);
         mGroup.addView(view);
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -223,4 +221,6 @@ public class LittleTableViewWindow extends LittleWindow {
         mGroup.removeView(view);
         super.onDestroyView();
     }
+
+
 }

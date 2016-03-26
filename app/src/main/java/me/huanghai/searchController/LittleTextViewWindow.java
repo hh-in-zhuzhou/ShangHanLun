@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.nakardo.atableview.uikit.UILabel;
@@ -106,50 +107,7 @@ public class LittleTextViewWindow extends LittleWindow {
         return false;
     }
 
-    protected boolean onlyShowRelatedFang() {
-        SingletonData single = SingletonData.getInstance();
-        Map<String, String> yaoDict = single.getYaoAliasDict();
-        String right = yao;
-        if (single.littleWindowStack.size() > 0) {
-            LittleWindow window = single.littleWindowStack.get(single.littleWindowStack.size() - 1);
-            String text_ = window.getSearchString();
-            String text = yaoDict.get(text_);
-            if (text == null) {
-                text = text_;
-            }
-            if (text.equals(right) && isInYaoContext()) {
-                return true;
-            }
-        } else {
-            ShowFragment showFragment = single.curFragment;
-            if (showFragment != null && showFragment.getIsContentOpen() == true) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.show_yao, null);
-        mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
-        mGroup.addView(view);
-        Button btn = (Button) view
-                .findViewById(R.id.maskbtnYao);
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                dismiss();
-            }
-        });
-
-        UILabel textView = (UILabel) view
-                .findViewById(R.id.textview);
-        textView.setText("未找到");
-        String s = yao != null ? yao : "";
+    protected SpannableStringBuilder getSpanString(String s) {
         SpannableStringBuilder spanString = new SpannableStringBuilder();
         SingletonData single = SingletonData.getInstance();
         Map<String, String> yaoDict = single.getYaoAliasDict();
@@ -205,11 +163,38 @@ public class LittleTextViewWindow extends LittleWindow {
             }
             index++;
         }
+        return spanString;
+    }
 
-        textView.setText(spanString);
-        textView.setMovementMethod(LocalLinkMovementMethod
-                .getInstance());
-        ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
+    protected boolean onlyShowRelatedFang() {
+        SingletonData single = SingletonData.getInstance();
+        Map<String, String> yaoDict = single.getYaoAliasDict();
+        String right = yao;
+        if (single.littleWindowStack.size() > 0) {
+            LittleWindow window = single.littleWindowStack.get(single.littleWindowStack.size() - 1);
+            String text_ = window.getSearchString();
+            String text = yaoDict.get(text_);
+            if (text == null) {
+                text = text_;
+            }
+            if (text.equals(right) && isInYaoContext()) {
+                return true;
+            }
+        } else {
+            ShowFragment showFragment = single.curFragment;
+            if (showFragment != null && showFragment.getIsContentOpen() == true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
+
+
 
         int screenHeight = mGroup.getHeight();
         int screenWidth = mGroup.getWidth();
@@ -221,8 +206,10 @@ public class LittleTextViewWindow extends LittleWindow {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         int midY = rect.top + rect.height() / 2;
         int midX = rect.left + rect.width() / 2;
-        int offset = 3;
-        if (midY < screenHeight / 2.0) {
+        int offset = 4;
+        int direction = ArrowView.UP;
+        if (midY < screenHeight / 2) {
+            view = inflater.inflate(R.layout.show_yao, null);
             params.setMargins(margin,
                     rect.top + rect.height() + border, margin, margin);
             arrowParams.setMargins(
@@ -230,8 +217,9 @@ public class LittleTextViewWindow extends LittleWindow {
                     rect.top + rect.height() + offset,
                     screenWidth - midX - border / 2,
                     screenHeight - rect.top - rect.height() - border - offset);
-            arrow.setDirection(ArrowView.UP);
+            direction = ArrowView.UP;
         } else {
+            view = inflater.inflate(R.layout.show_yao_2, null);
             params.gravity = Gravity.BOTTOM;
             Rect dispRect = new Rect();
             mGroup.getWindowVisibleDisplayFrame(dispRect);
@@ -246,12 +234,35 @@ public class LittleTextViewWindow extends LittleWindow {
                     rect.top - border - offset,
                     screenWidth - midX - border / 2,
                     screenHeight - rect.top + offset);
-            arrow.setDirection(ArrowView.DOWN);
+            direction = ArrowView.DOWN;
         }
-        ScrollView scroll = (ScrollView) view
-                .findViewById(R.id.maskscroll);
-        scroll.setLayoutParams(params);
+
+        mGroup.addView(view);
+        Button btn = (Button) view
+                .findViewById(R.id.maskbtnYao);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dismiss();
+            }
+        });
+
+        UILabel textView = (UILabel) view
+                .findViewById(R.id.textview);
+        textView.setText("未找到");
+        String s = yao != null ? yao : "";
+
+        textView.setText(getSpanString(s));
+        textView.setMovementMethod(LocalLinkMovementMethod
+                .getInstance());
+        ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
+        arrow.setDirection(direction);
         arrow.setLayoutParams(arrowParams);
+
+        LinearLayout wrapper = (LinearLayout) view.findViewById(R.id.wrapper);
+        wrapper.setLayoutParams(params);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
