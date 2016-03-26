@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.nakardo.atableview.uikit.UILabel;
 
@@ -237,7 +238,7 @@ public class LittleTextViewWindow extends LittleWindow {
             direction = ArrowView.DOWN;
         }
 
-        mGroup.addView(view);
+
         Button btn = (Button) view
                 .findViewById(R.id.maskbtnYao);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +250,7 @@ public class LittleTextViewWindow extends LittleWindow {
             }
         });
 
-        UILabel textView = (UILabel) view
+        final UILabel textView = (UILabel) view
                 .findViewById(R.id.textview);
         textView.setText("未找到");
         String s = yao != null ? yao : "";
@@ -261,8 +262,18 @@ public class LittleTextViewWindow extends LittleWindow {
         arrow.setDirection(direction);
         arrow.setLayoutParams(arrowParams);
 
+        btn = (Button) view.findViewById(R.id.leftbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.putStringToClipboard(textView.getText().toString());
+                Toast.makeText(SingletonData.getInstance().curActivity, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         LinearLayout wrapper = (LinearLayout) view.findViewById(R.id.wrapper);
         wrapper.setLayoutParams(params);
+        mGroup.addView(view);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

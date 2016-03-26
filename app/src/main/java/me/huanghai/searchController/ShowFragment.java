@@ -464,7 +464,7 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public void clickRowAtIndexPath(ATableView tableView, NSIndexPath indexPath) {
         HH2SectionData d = data.get(indexPath.getSection());
         DataItem item = d.getData().get(indexPath.getRow());
-        putStringToClipboard(item.getAttributedText().toString());
+        Helper.putStringToClipboard(item.getAttributedText().toString());
         Toast.makeText(getActivity(), "本条已复制到剪贴板", Toast.LENGTH_SHORT).show();
     }
 
@@ -499,12 +499,5 @@ public class ShowFragment extends Fragment implements TextWatcher {
         setSearchText(s.toString());
     }
 
-    public void putStringToClipboard(String text) {
-        // Context context = getActivity().getApplicationContext();
-        Context context = getActivity();
-        ClipboardManager cbm = (ClipboardManager) context
-                .getSystemService(context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText("shangHanLun", text);
-        cbm.setPrimaryClip(clipData);
-    }
+
 }

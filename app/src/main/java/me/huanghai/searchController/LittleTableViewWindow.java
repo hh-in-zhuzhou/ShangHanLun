@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.nakardo.atableview.view.ATableView;
 
@@ -198,7 +199,7 @@ public class LittleTableViewWindow extends LittleWindow {
                 .findViewById(R.id.showfang);
         tableView.init(ATableView.ATableViewStyle.Plain);
         String s = fang != null ? fang : "";
-        ShowFang showFang = new ShowFang(s, onlyShowRelatedContent());
+        final ShowFang showFang = new ShowFang(s, onlyShowRelatedContent());
         SingletonData.getInstance().pushShowFang(showFang);
         tableView.setDataSource(showFang.getDataSource());
         tableView.setDelegate(showFang.getDelegate());
@@ -206,13 +207,22 @@ public class LittleTableViewWindow extends LittleWindow {
 
         ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
         arrow.setDirection(direction);
+        arrow.setLayoutParams(arrowParams);
 
-        int btnsWidth = screenWidth / 2 * density - border - 24 * density;
+        btn = (Button) view.findViewById(R.id.leftbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFang.putCopyStringsToClipboard();
+                Toast.makeText(SingletonData.getInstance().curActivity, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         LinearLayout wrapper = (LinearLayout) view.findViewById(R.id.wrapper);
         wrapper.setLayoutParams(params);
-        arrow.setLayoutParams(arrowParams);
+
         mGroup.addView(view);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

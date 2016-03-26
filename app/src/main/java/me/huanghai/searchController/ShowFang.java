@@ -32,6 +32,25 @@ public class ShowFang {
         return dl;
     }
 
+    public void putCopyStringsToClipboard() {
+        if (data == null || data.size() == 0) {
+            return;
+        }
+        StringBuilder string = new StringBuilder();
+        int i = 0;
+        for (ArrayList<SpannableStringBuilder> arr : data) {
+            string.append("\n");
+            string.append(headers.get(i));
+            string.append("\n");
+            for (SpannableStringBuilder d : arr) {
+                string.append(d.toString());
+                string.append("\n");
+            }
+            i++;
+        }
+        Helper.putStringToClipboard(string.toString());
+    }
+
     public ShowFang(String fangName_, boolean onlyShowRelatedContent) {
         fangName = fangName_;
         SingletonData single = SingletonData.getInstance();

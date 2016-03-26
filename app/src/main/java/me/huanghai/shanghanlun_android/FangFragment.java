@@ -110,7 +110,7 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         // TODO Auto-generated method stub
         if (!isContentOpen) {
-            putStringToClipboard(linksStrings.get(curIndexPath.getSection())
+            Helper.putStringToClipboard(linksStrings.get(curIndexPath.getSection())
                     .toString());
             return;
         }
@@ -128,7 +128,7 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
         String fangName = fang;
         fang = item.getAttributedText().toString();
         if (index == 0) {
-            putStringToClipboard(item.getAttributedText().toString());
+            Helper.putStringToClipboard(item.getAttributedText().toString());
         } else if (index == 1) {
             StringBuilder string = new StringBuilder("伤寒论113方");
             if (searchText != null) {
@@ -140,9 +140,9 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
                     string.append("\n");
                 }
             }
-            putStringToClipboard(string.toString());
+            Helper.putStringToClipboard(string.toString());
         } else if (index == 2) {
-            putStringToClipboard(fangName);
+            Helper.putStringToClipboard(fangName);
         } else if (index == 3) {
             StringBuilder string = new StringBuilder("伤寒论113方");
             if (searchText != null) {
@@ -154,10 +154,10 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
                     string.append("\n");
                 }
             }
-            putStringToClipboard(string.toString());
+            Helper.putStringToClipboard(string.toString());
         } else if (index == 4) {
             String[] list = fang.split("\n");
-            putStringToClipboard(list[0]);
+            Helper.putStringToClipboard(list[0]);
         } else {
             StringBuilder string = new StringBuilder("伤寒论113方");
             if (searchText != null) {
@@ -171,7 +171,7 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
                     string.append("\n");
                 }
             }
-            putStringToClipboard(string.toString());
+            Helper.putStringToClipboard(string.toString());
         }
     }
 

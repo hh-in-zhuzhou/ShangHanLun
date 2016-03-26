@@ -116,7 +116,7 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
                 .get(curIndexPath.getRow());
         if (index < 3) {
             if (index == 0) {
-                putStringToClipboard(item.getAttributedText().toString());
+                Helper.putStringToClipboard(item.getAttributedText().toString());
             } else if (index == 1) {
                 HH2SectionData section = data.get(curIndexPath.getSection());
                 StringBuilder string = new StringBuilder(section.getHeader());
@@ -125,7 +125,7 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
                     string.append(d.getAttributedText().toString());
                     string.append("\n");
                 }
-                putStringToClipboard(string.toString());
+                Helper.putStringToClipboard(string.toString());
             } else if (index == 2) {
                 StringBuilder string = new StringBuilder("宋板伤寒论");
                 if (searchText != null) {
@@ -139,8 +139,8 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
                         string.append(d.getAttributedText().toString());
                         string.append("\n");
                     }
-                    putStringToClipboard(string.toString());
                 }
+                Helper.putStringToClipboard(string.toString());
             }
             return;
         } else {

@@ -46,7 +46,7 @@ public class YaoFragment extends ShowFragment {
         if (isContentOpen) {
             super.clickRowAtIndexPath(tableView, indexPath);
         } else {
-            putStringToClipboard(linksString.toString());
+            Helper.putStringToClipboard(linksString.toString());
             Toast.makeText(getActivity(), "已复制到剪贴板", Toast.LENGTH_SHORT).show();
         }
     }

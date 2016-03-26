@@ -1,5 +1,7 @@
 package me.huanghai.searchController;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -260,6 +262,15 @@ public class Helper {
             return key;
         }
         return str;
+    }
+
+    public static void putStringToClipboard(String text) {
+        // Context context = getActivity().getApplicationContext();
+        Context context = MyApplication.getAppContext();
+        ClipboardManager cbm = (ClipboardManager) context
+                .getSystemService(context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("shangHanLun", text);
+        cbm.setPrimaryClip(clipData);
     }
 
 }
