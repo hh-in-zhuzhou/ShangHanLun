@@ -5,6 +5,7 @@ import android.text.SpannableStringBuilder;
 import com.nakardo.atableview.foundation.NSIndexPath;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class DataItem {
     private String text;
@@ -91,7 +92,7 @@ public class DataItem {
         for (int pos : allPos) {
             int curEnd = textString.substring(pos).indexOf("}");
             String cut = textString.substring(pos + 3, pos + curEnd);
-            resStrings[i] = cut;
+            resStrings[i] = cut;//Helper.getAliasString(dict, cut);
             i++;
         }
         return resStrings;
@@ -107,7 +108,7 @@ public class DataItem {
         for (int pos : allPos) {
             int curEnd = textString.substring(pos).indexOf("}");
             String cut = textString.substring(pos + 3, pos + curEnd);
-            resStrings[i] = cut;
+            resStrings[i] = cut;//Helper.getAliasString(dict, cut);
             i++;
         }
         return resStrings;

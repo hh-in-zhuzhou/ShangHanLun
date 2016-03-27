@@ -50,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
                 android:background="@drawable/round_win_black"
-                android:text="跳转查看条文"
+                android:text="查看药证条文"
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
 
@@ -70,7 +70,6 @@
                 android:background="@drawable/round_win_inner"
                 android:padding="10dp"
                 android:textColor="#000000"
-                android:textIsSelectable="true"
                 android:textSize="18dp" />
         </ScrollView>
     </LinearLayout>

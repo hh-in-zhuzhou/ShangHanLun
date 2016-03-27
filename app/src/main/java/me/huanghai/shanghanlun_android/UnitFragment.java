@@ -65,7 +65,7 @@ public class UnitFragment extends Fragment {
         TextView textView = new TextView(getActivity().getApplicationContext());
         textView.setText("汉制单位");
         textView.setTextColor(Color.WHITE);
-        textView.setTextSize(22);
+        textView.setTextSize(18);
         textView.setGravity(Gravity.CENTER);
         FrameLayout layout = (FrameLayout) view.findViewById(R.id.titlebar);
         layout.addView(textView);

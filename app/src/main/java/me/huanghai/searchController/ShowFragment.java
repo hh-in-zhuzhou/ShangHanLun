@@ -76,8 +76,10 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         String title = null;
+        String yaoZheng = null;
         try {
             title = getActivity().getIntent().getExtras().getString("title");
+            yaoZheng = getActivity().getIntent().getExtras().getString("yaoZheng");
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -90,14 +92,19 @@ public class ShowFragment extends Fragment implements TextWatcher {
         // title = "桂枝汤"; //这里有一个奇怪的问题，如果取消注释，会有奇怪的bug，原因不明
         if (title != null) {
             isContentOpen = true;
-            setSearchText(String.format("f%s", title));
+            boolean isYaoZheng = yaoZheng != null && yaoZheng.equals("true");
+            if (isYaoZheng) {
+                setYaoZheng(title);
+            } else {
+                setSearchText(String.format("f%s", title));
+            }
 
             searchEditText.setVisibility(View.GONE);
             numTips.setVisibility(View.GONE);
             TextView textView = new TextView(getActivity()
                     .getApplicationContext());
-            textView.setText(title);
-            textView.setTextSize(22);
+            textView.setText(isYaoZheng ? String.format("%s药证", title) : title);
+            textView.setTextSize(18);
             textView.setGravity(Gravity.CENTER);
             FrameLayout layout = (FrameLayout) view.findViewById(R.id.titlebar);
             layout.addView(textView);
@@ -119,6 +126,51 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public void setIsContentOpen(boolean open) {
         isContentOpen = open;
         tableView.reloadData();
+    }
+
+    public static List<String> getFangListUsesYao(String s) {
+        Map<String, String> dict = SingletonData.getInstance().yaoAliasDict;
+        String yao = Helper.getAliasString(dict, s);
+        List<String> fangList = new ArrayList<>();
+        for (HH2SectionData sec : SingletonData.getInstance().getFang()) {
+            for (DataItem item :
+                    sec.getData()) {
+                for (String y :
+                        item.getYaoList()) {
+                    if (Helper.getAliasString(dict, y).equals(yao)) {
+                        fangList.add(item.getFangList()[0].toString());
+                        break;
+                    }
+                }
+            }
+        }
+        return fangList;
+    }
+
+    public void setYaoZheng(final String s) {
+        final List<String> fangList = getFangListUsesYao(s);
+        final Map<String, String> fangDict = SingletonData.getInstance().fangAliasDict;
+        List<HH2SectionData> res = Helper.searchText(dataBak, new DataItemCompare() {
+            @Override
+            public boolean useThisItem(DataItem item) {
+                for (String fang : fangList) {
+                    for (String fangInner :
+                            item.getFangList()) {
+                        if (fang.equals(Helper.getAliasString(fangDict, fangInner))) {
+                            return true;
+                        }
+                    }
+                }
+                for (String yao :
+                        item.getYaoList()) {
+                    if (Helper.getAliasString(SingletonData.getInstance().yaoAliasDict, s).equals(yao)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        resetData(res);
     }
 
     public void setSearchText(String str) {

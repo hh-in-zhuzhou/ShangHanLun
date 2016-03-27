@@ -38,6 +38,7 @@
             android:layout_marginRight="38dp"
             android:gravity="center_vertical"
             android:singleLine="true"
+            android:textSize="18dp"
             android:textColor="#888888" />
     </FrameLayout>
 

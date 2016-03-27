@@ -273,4 +273,28 @@ public class Helper {
         cbm.setPrimaryClip(clipData);
     }
 
+    public static List<HH2SectionData> searchText(List<HH2SectionData> data,
+                                                  DataItemCompare compare) {
+        List<HH2SectionData> res = new ArrayList<>();
+        for (HH2SectionData sec :
+                data) {
+            ArrayList<DataItem> section = null;
+            for (DataItem item :
+                    sec.getData()) {
+                if (compare.useThisItem(item)) {
+                    if (section == null) {
+                        section = new ArrayList<>();
+                    }
+                    section.add(item);
+                }
+            }
+            if (section != null) {
+                HH2SectionData d = new HH2SectionData(section, sec.getSection(),
+                        sec.getHeader());
+                res.add(d);
+            }
+        }
+        return res;
+    }
+
 }

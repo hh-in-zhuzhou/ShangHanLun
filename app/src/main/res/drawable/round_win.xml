@@ -18,6 +18,7 @@
 
     <corners android:radius="8dp" />
     <!--设置圆角-->
+    <!-- If you want to add some padding -->
 
     <padding
         android:left="0dip"

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.nakardo.atableview.view.ATableView;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import me.huanghai.shanghanlun_android.MainActivity;
 import me.huanghai.shanghanlun_android.R;
 
 /**
@@ -198,7 +200,7 @@ public class LittleTableViewWindow extends LittleWindow {
         ATableView tableView = (ATableView) view
                 .findViewById(R.id.showfang);
         tableView.init(ATableView.ATableViewStyle.Plain);
-        String s = fang != null ? fang : "";
+        final String s = fang != null ? fang : "";
         final ShowFang showFang = new ShowFang(s, onlyShowRelatedContent());
         SingletonData.getInstance().pushShowFang(showFang);
         tableView.setDataSource(showFang.getDataSource());
@@ -215,6 +217,17 @@ public class LittleTableViewWindow extends LittleWindow {
             public void onClick(View v) {
                 showFang.putCopyStringsToClipboard();
                 Toast.makeText(SingletonData.getInstance().curActivity, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn = (Button) view.findViewById(R.id.rightbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("title", s);
+                intent.putExtra("isFang", "false");
+                getActivity().startActivity(intent);
             }
         });
 

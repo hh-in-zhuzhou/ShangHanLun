@@ -3,6 +3,7 @@ package me.huanghai.searchController;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
+import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
 import com.nakardo.atableview.protocol.ATableViewDataSource;
@@ -143,13 +144,9 @@ public class ShowFang {
             UILabel label = cell.getTextLabel();
             label.setBackgroundColor(Color.WHITE);
             label.setText(sd.get(indexPath.getRow()));
-
+            label.setTextIsSelectable(true);
             label.setMaxLines(320);
             label.setMovementMethod(LocalLinkMovementMethod.getInstance());
-            // label.setHighlightColor(Color.BLUE);
-            // set detail text. careful, detail text is not present on every
-            // cell style.
-            // null references are not as neat as in obj-c.
 
             return cell;
         }

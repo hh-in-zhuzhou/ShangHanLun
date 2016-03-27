@@ -36,8 +36,8 @@ public class SettingsFragment extends Fragment {
             "检查有无新版发布",
     };
     private String[] aboutInfo = {
-            "3.0 beta 18",
-            "实现了搜索回退",
+            "3.0 beta 19",
+            "小窗口增加按钮",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",

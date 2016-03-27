@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import com.nakardo.atableview.uikit.UILabel;
 
 import java.util.Map;
 
+import me.huanghai.shanghanlun_android.MainActivity;
 import me.huanghai.shanghanlun_android.R;
 
 /**
@@ -195,8 +197,6 @@ public class LittleTextViewWindow extends LittleWindow {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mGroup = (ViewGroup) getActivity().getWindow().getDecorView();
 
-
-
         int screenHeight = mGroup.getHeight();
         int screenWidth = mGroup.getWidth();
         int margin = Math.min(50, screenWidth / 18);
@@ -253,7 +253,7 @@ public class LittleTextViewWindow extends LittleWindow {
         final UILabel textView = (UILabel) view
                 .findViewById(R.id.textview);
         textView.setText("未找到");
-        String s = yao != null ? yao : "";
+        final String s = yao != null ? yao : "";
 
         textView.setText(getSpanString(s));
         textView.setMovementMethod(LocalLinkMovementMethod
@@ -268,6 +268,18 @@ public class LittleTextViewWindow extends LittleWindow {
             public void onClick(View v) {
                 Helper.putStringToClipboard(textView.getText().toString());
                 Toast.makeText(SingletonData.getInstance().curActivity, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn = (Button) view.findViewById(R.id.rightbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("title", s);
+                intent.putExtra("isFang", "false");
+                intent.putExtra("yaoZheng", "true");
+                getActivity().startActivity(intent);
             }
         });
 

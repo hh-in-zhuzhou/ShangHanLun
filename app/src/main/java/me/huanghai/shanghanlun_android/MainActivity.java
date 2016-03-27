@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
 
         isFang = getIntent().getExtras().getString("isFang");
         int tranId = R.id.firstContentTab;
-        if (isFang.equals("true")) {
+        if (isFang != null && isFang.equals("true")) {
             tranId = R.id.fangYaoTab;
         }
 
