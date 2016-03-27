@@ -13,12 +13,15 @@ import android.text.TextWatcher;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +55,8 @@ public class ShowFragment extends Fragment implements TextWatcher {
     protected ClearEditText searchEditText;
     protected ATableView tableView;
     protected TextView numTips;
+
+    PopupWindow popupWindow;
 
     protected int totalNum;
     protected boolean isContentOpen;
@@ -546,9 +551,76 @@ public class ShowFragment extends Fragment implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    public void onTextChanged(final CharSequence s, final int start, int before, int count) {
         // TODO Auto-generated method stub
-        setSearchText(s.toString());
+        Log.e("textChaned:", s + ",start=" + start + ",before=" + before + ",count=" + count);
+        final boolean charInAdd = count > 0 && (s.charAt(start) == 'f' || s.charAt(start) == 'y');
+        boolean charInDel = count == 0 && s.length() > 0 && (s.charAt(start - 1) == 'f' || s.charAt(start - 1) == 'y');
+        if (charInAdd || charInDel) {
+            char c = charInAdd ? s.charAt(start) : s.charAt(start - 1);
+            ScrollView scroll;
+            View group = getActivity().getWindow().getDecorView();
+            if (popupWindow == null) {
+                scroll = (ScrollView) getActivity().getLayoutInflater().inflate(R.layout.tips_window, null);
+                popupWindow = new PopupWindow(scroll, searchEditText.getWidth(), group.getHeight() / 2, true);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setTouchable(true);
+            } else {
+                scroll = (ScrollView) popupWindow.getContentView();
+            }
+            TextView textView = (TextView) scroll.findViewById(R.id.tipsview);
+            textView.setMovementMethod(LocalLinkMovementMethod
+                    .getInstance());
+
+            StringBuilder builder = new StringBuilder();
+            String header = c == 'f' ? "所有方剂：" : "所有药物：";
+            List<String> groups = c == 'f' ? SingletonData.getInstance().allFang
+                    : SingletonData.getInstance().allYao;
+            String cls = c == 'f' ? "f" : "u";
+            builder.append("$r{" + header + "}\n");
+            for (String str :
+                    groups) {
+                builder.append("$" + cls + "{" + str + "}，");
+            }
+            SpannableStringBuilder span = Helper.renderText(builder.toString(), new ClickLink() {
+                // 这里是点击下拉框后修改搜索框文字的方法
+                public void clickThis(TextView tv, ClickableSpan clickableSpan) {
+                    String unit = tv
+                            .getText()
+                            .subSequence(tv.getSelectionStart(),
+                                    tv.getSelectionEnd()).toString();
+                    System.out.println("tapped:" + unit);
+                    int mid = charInAdd ? start + 1 : start;
+                    String first = s.toString().substring(0, mid);
+                    String end = s.toString().substring(mid);
+                    String search = first + unit + end + " ";
+                    searchEditText.setText(search);
+                    searchEditText.setSelection(first.length() + unit.length() + 1);
+                    setSearchText(search);
+                    if (popupWindow.isShowing()) {
+                        popupWindow.dismiss();
+                    }
+                }
+
+                @Override
+                public void clickYaoLink(TextView tv, ClickableSpan clickableSpan) {
+                    clickThis(tv, clickableSpan);
+                }
+
+                @Override
+                public void clickFangLink(TextView tv, ClickableSpan clickableSpan) {
+                    clickThis(tv, clickableSpan);
+                }
+            });
+            textView.setText(span);
+
+            if (!popupWindow.isShowing()) {
+                popupWindow.showAsDropDown(searchEditText);
+                searchEditText.requestFocus();
+            }
+        } else {
+            setSearchText(s.toString());
+        }
     }
 
 

@@ -144,7 +144,7 @@ public class ShowFang {
             UILabel label = cell.getTextLabel();
             label.setBackgroundColor(Color.WHITE);
             label.setText(sd.get(indexPath.getRow()));
-            label.setTextIsSelectable(true);
+
             label.setMaxLines(320);
             label.setMovementMethod(LocalLinkMovementMethod.getInstance());
 

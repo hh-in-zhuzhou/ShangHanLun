@@ -77,8 +77,7 @@ public class Helper {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
-    public static SpannableStringBuilder renderText(String textString) {
-        // System.out.println(textString);
+    public static SpannableStringBuilder renderText(String textString, final ClickLink clickLink) {
         SpannableStringBuilder res = new SpannableStringBuilder(textString);
         // ArrayList<Integer> allPos = getAllSubStringPos(textString, "$");
         int pos = 0;
@@ -112,19 +111,7 @@ public class Helper {
                     @Override
                     public void onClick(View widget) {
                         // TODO Auto-generated method stub
-                        UILabel tv = (UILabel) widget;
-                        String s = tv
-                                .getText()
-                                .subSequence(tv.getSelectionStart(),
-                                        tv.getSelectionEnd()).toString();
-                        System.out.println("tapped:" + s);
-                        Rect rect = getTextRect(this, (TextView) widget);
-//                        callBack.onYaoCallBack(rect, s);
-                        LittleTextViewWindow window = new LittleTextViewWindow();
-                        window.setYao(s);
-                        window.setAttributedString(new SpannableStringBuilder(tv.getText()));
-                        window.setRect(rect);
-                        window.show(SingletonData.getInstance().curActivity.getFragmentManager());
+                        clickLink.clickYaoLink((TextView) widget, this);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -134,19 +121,7 @@ public class Helper {
                     @Override
                     public void onClick(View widget) {
                         // TODO Auto-generated method stub
-                        UILabel tv = (UILabel) widget;
-                        String s = tv
-                                .getText()
-                                .subSequence(tv.getSelectionStart(),
-                                        tv.getSelectionEnd()).toString();
-                        System.out.println("tapped:" + s);
-                        Rect rect = getTextRect(this, (TextView) widget);
-
-                        LittleTableViewWindow window = new LittleTableViewWindow();
-                        window.setFang(s);
-                        window.setAttributedString(new SpannableStringBuilder(tv.getText()));
-                        window.setRect(rect);
-                        window.show(SingletonData.getInstance().curActivity.getFragmentManager());
+                        clickLink.clickFangLink((TextView) widget, this);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
@@ -156,6 +131,43 @@ public class Helper {
         }
         renderItemNumber(res);
         return res;
+    }
+
+    public static SpannableStringBuilder renderText(String textString) {
+        // System.out.println(textString);
+        return renderText(textString, new ClickLink() {
+            @Override
+            public void clickYaoLink(TextView tv, ClickableSpan clickableSpan) {
+                String s = tv
+                        .getText()
+                        .subSequence(tv.getSelectionStart(),
+                                tv.getSelectionEnd()).toString();
+                System.out.println("tapped:" + s);
+                Rect rect = getTextRect(clickableSpan, tv);
+//                        callBack.onYaoCallBack(rect, s);
+                LittleTextViewWindow window = new LittleTextViewWindow();
+                window.setYao(s);
+                window.setAttributedString(new SpannableStringBuilder(tv.getText()));
+                window.setRect(rect);
+                window.show(SingletonData.getInstance().curActivity.getFragmentManager());
+            }
+
+            @Override
+            public void clickFangLink(TextView tv, ClickableSpan clickableSpan) {
+                String s = tv
+                        .getText()
+                        .subSequence(tv.getSelectionStart(),
+                                tv.getSelectionEnd()).toString();
+                System.out.println("tapped:" + s);
+                Rect rect = getTextRect(clickableSpan, tv);
+
+                LittleTableViewWindow window = new LittleTableViewWindow();
+                window.setFang(s);
+                window.setAttributedString(new SpannableStringBuilder(tv.getText()));
+                window.setRect(rect);
+                window.show(SingletonData.getInstance().curActivity.getFragmentManager());
+            }
+        });
     }
 
     private static Rect getTextRect(ClickableSpan clickedText, TextView parentTextView) {
@@ -228,11 +240,19 @@ public class Helper {
 
     public static int getColoredTextByStrClass(String strClass) {
         /*
-         * $n{...} 条文序号 $f{...} 方名 $a{...} 内嵌注释 $m{...} 药味总数 $s{...}
-		 * 药煮法开头的“上...味" $u{...} 药名 $w{...} 药量 不允许嵌套使用 $q{...} 方名前缀（千金，外台）
+         * $r{...} 红色警告
+         * $n{...} 条文序号
+         * $f{...} 方名
+         * $a{...} 内嵌注释
+         * $m{...} 药味总数
+         * $s{...} 药煮法开头的“上...味"
+         * $u{...} 药名
+         * $w{...} 药量
+         * 不允许嵌套使用 $q{...} 方名前缀（千金，外台）
 		 * 不允许嵌套使用 $h{...} 隐藏的方名（暂时只用于标记方名)
 		 */
         Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("r", Color.RED);
         map.put("n", Color.BLUE);
         map.put("f", Color.BLUE);
         map.put("a", Color.GRAY);
@@ -243,7 +263,8 @@ public class Helper {
         map.put("w", Color.rgb(0, 128, 0));
         map.put("q", Color.rgb(61, 200, 120));
         map.put("h", Color.TRANSPARENT);
-        return map.get(strClass);
+        Integer res = map.get(strClass);
+        return res == null ? Color.BLACK : res;
     }
 
     public static int strLengh(String str) {
