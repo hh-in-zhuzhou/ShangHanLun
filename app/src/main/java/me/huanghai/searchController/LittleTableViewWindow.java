@@ -46,8 +46,21 @@ public class LittleTableViewWindow extends LittleWindow {
     private Rect rect;
     private String tag = "littleWindow";
 
+    @Override
     public String getSearchString() {
         return fang;
+    }
+
+    @Override
+    public void show(FragmentManager manager) {
+        super.show(manager);
+        SingletonData.getInstance().littleWindowStack.add(this);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        SingletonData.getInstance().littleWindowStack.remove(this);
     }
 
     public void setAttributedString(SpannableStringBuilder attributedString) {
@@ -69,22 +82,6 @@ public class LittleTableViewWindow extends LittleWindow {
 
     public void setRect(Rect rect) {
         this.rect = rect;
-    }
-
-    public void show(FragmentManager manager) {
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(this, tag);
-        ft.addToBackStack(tag);
-        ft.commit();
-        SingletonData.getInstance().littleWindowStack.add(this);
-    }
-
-    public void dismiss() {
-        getFragmentManager().popBackStack();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.remove(this);
-        ft.commit();
-        SingletonData.getInstance().littleWindowStack.remove(this);
     }
 
     public boolean isInFangContext() {

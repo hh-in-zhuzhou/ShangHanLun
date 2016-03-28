@@ -7,6 +7,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,15 +200,10 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
             ATableViewCell cell = super.cellForRowAtIndexPath(tableView,
                     indexPath);
             if (isContentOpen) {
+//                cell.getTextLabel().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                 return cell;
             }
-            // SpannableStringBuilder builder = new SpannableStringBuilder();
-            // List<DataItem> list = data.get(indexPath.getSection()).getData();
-            // for (DataItem item : list) {
-            // builder.append(item.renderText(String.format("$f{%s}，",
-            // item.getFangList()[0])));
-            // }
-            // linksString.put(indexPath, builder);
+//            cell.getTextLabel().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             cell.getTextLabel().setText(
                     linksStrings.get(indexPath.getSection()));
             return cell;

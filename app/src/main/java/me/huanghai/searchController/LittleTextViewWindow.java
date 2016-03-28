@@ -48,27 +48,23 @@ public class LittleTextViewWindow extends LittleWindow {
         return yao;
     }
 
+    @Override
+    public void show(FragmentManager manager) {
+        super.show(manager);
+        SingletonData.getInstance().littleWindowStack.add(this);
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        SingletonData.getInstance().littleWindowStack.remove(this);
+    }
+
     public void setAttributedString(SpannableStringBuilder attributedString) {
         this.attributedString = attributedString;
     }
 
     public LittleTextViewWindow() {
-    }
-
-    public void show(FragmentManager manager) {
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add(this, tag);
-        ft.addToBackStack(tag);
-        ft.commit();
-        SingletonData.getInstance().littleWindowStack.add(this);
-    }
-
-    public void dismiss() {
-        getFragmentManager().popBackStack();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.remove(this);
-        ft.commit();
-        SingletonData.getInstance().littleWindowStack.remove(this);
     }
 
     public void setYao(String yao) {
@@ -131,6 +127,9 @@ public class LittleTextViewWindow extends LittleWindow {
                         spanString.append(item.getAttributedText());
                     }
                 }
+            }
+            if (spanString.length() == 0) {
+                spanString.append(Helper.renderText("$r{药物未找到资料}"));
             }
             spanString.append("\n\n");
         }

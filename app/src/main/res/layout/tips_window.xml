@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/round_win"
-    android:padding="6dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tipsview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_win_inner"
-        android:textSize="18dp" />
-</ScrollView>
+        android:background="@drawable/round_win"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginBottom="20dp"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/tipsview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_win_inner"
+            android:textSize="18dp" />
+    </ScrollView>
+</FrameLayout>

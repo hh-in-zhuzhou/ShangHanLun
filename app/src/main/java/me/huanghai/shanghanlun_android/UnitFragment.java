@@ -74,6 +74,7 @@ public class UnitFragment extends Fragment {
         tableView.init(ATableViewStyle.Plain);
         tableView.setDataSource(new SampleATableViewDataSource());
         tableView.setDelegate(new SampleATableViewDelegate());
+        tableView.enableHeaderView(false);
 
         return view;
     }
@@ -121,7 +122,9 @@ public class UnitFragment extends Fragment {
     }
 
     public class SampleATableViewDelegate extends ATableViewDelegate {
-
+        public int heightForHeaderInSection(ATableView tableView, int section) {
+            return 1;
+        }
     }
 
     public void putStringToClipboard(String text) {

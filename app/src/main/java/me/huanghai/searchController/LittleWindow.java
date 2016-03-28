@@ -2,14 +2,38 @@ package me.huanghai.searchController;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 /**
  * Created by hh on 16/3/25.
  */
-public abstract class LittleWindow extends Fragment {
-    public abstract String getSearchString();
+public class LittleWindow extends Fragment {
+    protected String searchText;
 
-    public abstract void show(FragmentManager manager);
+    public String getSearchString() {
+        return searchText;
+    }
 
-    public abstract void dismiss();
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    public String getTagName() {
+        return "littleWindow";
+    }
+
+    public void show(FragmentManager manager) {
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, getTagName());
+        ft.addToBackStack(getTagName());
+        ft.commit();
+
+    }
+
+    public void dismiss() {
+        getFragmentManager().popBackStack();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.remove(this);
+        ft.commit();
+    }
 }

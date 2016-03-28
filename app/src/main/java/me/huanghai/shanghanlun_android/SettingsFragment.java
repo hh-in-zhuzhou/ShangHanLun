@@ -36,8 +36,8 @@ public class SettingsFragment extends Fragment {
             "检查有无新版发布",
     };
     private String[] aboutInfo = {
-            "3.0 beta 19",
-            "小窗口增加按钮",
+            "3.0 beta 21",
+            "搜索框下拉提示完成",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",
@@ -47,7 +47,8 @@ public class SettingsFragment extends Fragment {
             "1.输入1-398的数字，不会进行筛选，而是直接滑动定位到该条文",
             "2.输入多个关键词，需要以空格隔开，比如“甘草  大枣”，意为查询同时包含甘草和大枣的",
             "3.紧挨关键词前或后输入\"-\"，意为不包含该关键字。",
-            "4.可用 # 或 . (英文符号)代替一个不好打的字"
+            "4.可用 # 或 . (英文符号)代替一个不好打的字",
+            "5.搜索框输入f或者y将弹出辅助输入框"
     };
     private String[] thx = {
             "1、感谢“炙甘草”老师，一直以来无私的帮助我，并帮助一起校对了金匮要略",

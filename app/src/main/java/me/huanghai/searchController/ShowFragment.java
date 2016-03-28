@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -55,8 +56,7 @@ public class ShowFragment extends Fragment implements TextWatcher {
     protected ClearEditText searchEditText;
     protected ATableView tableView;
     protected TextView numTips;
-
-    PopupWindow popupWindow;
+    TipsWindow tipsWindow;
 
     protected int totalNum;
     protected boolean isContentOpen;
@@ -551,77 +551,72 @@ public class ShowFragment extends Fragment implements TextWatcher {
     }
 
     @Override
-    public void onTextChanged(final CharSequence s, final int start, int before, int count) {
+    public void onTextChanged(final CharSequence s, final int start, int before, final int count) {
         // TODO Auto-generated method stub
         Log.e("textChaned:", s + ",start=" + start + ",before=" + before + ",count=" + count);
-        final boolean charInAdd = count > 0 && (s.charAt(start) == 'f' || s.charAt(start) == 'y');
-        boolean charInDel = count == 0 && s.length() > 0 && (s.charAt(start - 1) == 'f' || s.charAt(start - 1) == 'y');
-        if (charInAdd || charInDel) {
-            char c = charInAdd ? s.charAt(start) : s.charAt(start - 1);
-            ScrollView scroll;
-            View group = getActivity().getWindow().getDecorView();
-            if (popupWindow == null) {
-                scroll = (ScrollView) getActivity().getLayoutInflater().inflate(R.layout.tips_window, null);
-                popupWindow = new PopupWindow(scroll, searchEditText.getWidth(), group.getHeight() / 2, true);
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setTouchable(true);
-            } else {
-                scroll = (ScrollView) popupWindow.getContentView();
+        String[] words = s.toString().substring(0, searchEditText.getSelectionStart()).split(" ");
+        if (words.length > 0) {
+            for (String w :
+                    words) {
+                Log.e("words:", "'" + w + "'");
             }
-            TextView textView = (TextView) scroll.findViewById(R.id.tipsview);
-            textView.setMovementMethod(LocalLinkMovementMethod
-                    .getInstance());
+            final String lastWord = words[words.length - 1];
 
-            StringBuilder builder = new StringBuilder();
-            String header = c == 'f' ? "所有方剂：" : "所有药物：";
-            List<String> groups = c == 'f' ? SingletonData.getInstance().allFang
-                    : SingletonData.getInstance().allYao;
-            String cls = c == 'f' ? "f" : "u";
-            builder.append("$r{" + header + "}\n");
-            for (String str :
-                    groups) {
-                builder.append("$" + cls + "{" + str + "}，");
-            }
-            SpannableStringBuilder span = Helper.renderText(builder.toString(), new ClickLink() {
-                // 这里是点击下拉框后修改搜索框文字的方法
-                public void clickThis(TextView tv, ClickableSpan clickableSpan) {
-                    String unit = tv
-                            .getText()
-                            .subSequence(tv.getSelectionStart(),
-                                    tv.getSelectionEnd()).toString();
-                    System.out.println("tapped:" + unit);
-                    int mid = charInAdd ? start + 1 : start;
-                    String first = s.toString().substring(0, mid);
-                    String end = s.toString().substring(mid);
-                    String search = first + unit + end + " ";
-                    searchEditText.setText(search);
-                    searchEditText.setSelection(first.length() + unit.length() + 1);
-                    setSearchText(search);
-                    if (popupWindow.isShowing()) {
-                        popupWindow.dismiss();
+            if (lastWord.contains("y") || lastWord.contains("f")) {
+
+                if (tipsWindow == null) {
+                    tipsWindow = new TipsWindow();
+                }
+                tipsWindow.setClickLink(new ClickLink() {
+                    // 这里是点击下拉框后修改搜索框文字的方法
+                    public void clickThis(TextView tv, ClickableSpan clickableSpan) {
+                        processClickTips(tv, s, start, count > 0, lastWord.contains("y") ? 'y' : 'f');
                     }
-                }
 
-                @Override
-                public void clickYaoLink(TextView tv, ClickableSpan clickableSpan) {
-                    clickThis(tv, clickableSpan);
-                }
+                    @Override
+                    public void clickYaoLink(TextView tv, ClickableSpan clickableSpan) {
+                        clickThis(tv, clickableSpan);
+                    }
 
-                @Override
-                public void clickFangLink(TextView tv, ClickableSpan clickableSpan) {
-                    clickThis(tv, clickableSpan);
-                }
-            });
-            textView.setText(span);
+                    @Override
+                    public void clickFangLink(TextView tv, ClickableSpan clickableSpan) {
+                        clickThis(tv, clickableSpan);
+                    }
+                });
+                tipsWindow.setSearchText(lastWord);
 
-            if (!popupWindow.isShowing()) {
-                popupWindow.showAsDropDown(searchEditText);
-                searchEditText.requestFocus();
+                if (!tipsWindow.isShowing) {
+                    tipsWindow.show(getFragmentManager());
+                }
+            } else if (tipsWindow != null && tipsWindow.isShowing()) {
+                tipsWindow.dismiss();
             }
         } else {
             setSearchText(s.toString());
         }
     }
 
+    protected void processClickTips(TextView tv, CharSequence s, int start, boolean charInAdd, char cls) {
+        Log.e("click:textChaned:", s + ",start=" + start);
+        String unit = tv
+                .getText()
+                .subSequence(tv.getSelectionStart(),
+                        tv.getSelectionEnd()).toString();
+        System.out.println("tapped:" + unit);
+        int mid = charInAdd ? start + 1 : start;
 
+        String firstWord = s.toString().substring(0, searchEditText.getSelectionStart());
+        int fPos = firstWord.lastIndexOf(cls);
+
+        String first = s.toString().substring(0, fPos + 1);
+        String end = s.toString().substring(mid);
+        String search = first + unit + end + " ";
+        searchEditText.setText(search);
+        searchEditText.setSelection(first.length() + unit.length() + 1);
+        setIsContentOpen(true);
+        setSearchText(search);
+        if (tipsWindow != null && tipsWindow.isShowing) {
+            tipsWindow.dismiss();
+        }
+    }
 }

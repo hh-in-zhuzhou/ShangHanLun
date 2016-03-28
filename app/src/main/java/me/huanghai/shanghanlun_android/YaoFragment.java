@@ -6,6 +6,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +76,7 @@ public class YaoFragment extends ShowFragment {
             ATableViewCell cell = super.cellForRowAtIndexPath(tableView,
                     indexPath);
             if (isContentOpen) {
+//                cell.getTextLabel().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                 return cell;
             }
             SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -86,6 +88,7 @@ public class YaoFragment extends ShowFragment {
             }
             linksString = builder;
             cell.getTextLabel().setText(builder);
+//            cell.getTextLabel().setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             return cell;
         }
     }

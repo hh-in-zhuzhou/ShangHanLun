@@ -10,6 +10,5 @@ import com.nakardo.atableview.uikit.UILabel;
  */
 public interface ClickLink {
     public void clickYaoLink(TextView tv, ClickableSpan clickableSpan);
-
     public void clickFangLink(TextView tv, ClickableSpan clickableSpan);
 }
