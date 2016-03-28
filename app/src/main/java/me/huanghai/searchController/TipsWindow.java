@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class TipsWindow extends LittleWindow {
     public void show(FragmentManager manager) {
         super.show(manager);
         isShowing = true;
+        SingletonData.getInstance().curTipsWindow = this;
     }
 
     @Override
@@ -50,6 +52,7 @@ public class TipsWindow extends LittleWindow {
         super.dismiss();
         isShowing = false;
         mGroup.removeView(view);
+        SingletonData.getInstance().curTipsWindow = null;
     }
 
     @Override
@@ -79,6 +82,9 @@ public class TipsWindow extends LittleWindow {
     }
 
     protected SpannableStringBuilder getTipsString() {
+        if (searchText == null) {
+            searchText = "";
+        }
         char c = searchText.contains("y") ? 'y' : 'f';
         StringBuilder builder = new StringBuilder();
         String header = c == 'f' ? "所有方剂：" : "所有药物：";
@@ -87,8 +93,17 @@ public class TipsWindow extends LittleWindow {
         String cls = c == 'f' ? "f" : "u";
         builder.append("$r{" + header + "}\n");
 
-        String[] units = searchText.split(c == 'y' ? "y" : "f");
-        Pattern p = Pattern.compile(units.length > 0 ? units[units.length - 1] : ".");
+        String search = ".";
+        Log.e("tipsWindow:", "searchText:'" + searchText + "'");
+        if (searchText.charAt(searchText.length() - 1) != c) {
+            String[] units = searchText.split(c == 'y' ? "y" : "f");
+            for (String u :
+                    units) {
+                Log.e("tipsWindow:", "'" + u + "'");
+            }
+            search = units.length > 0 ? units[units.length - 1] : ".";
+        }
+        Pattern p = Pattern.compile(search);
         for (String str :
                 groups) {
             if (p.matcher(str).find()) {

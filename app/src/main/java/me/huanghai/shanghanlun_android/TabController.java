@@ -23,6 +23,7 @@ import java.util.Map;
 
 import me.huanghai.searchController.ShowFragment;
 import me.huanghai.searchController.SingletonData;
+import me.huanghai.searchController.TipsWindow;
 
 public class TabController extends Activity {
     private FragmentManager fragmentManager;
@@ -110,6 +111,11 @@ public class TabController extends Activity {
             }
         }
 
+        TipsWindow tipsWindow = SingletonData.getInstance().curTipsWindow;
+        if (keyCode == KeyEvent.KEYCODE_BACK && tipsWindow != null && tipsWindow.isShowing()) {
+            tipsWindow.dismiss();
+            return false;
+        }
 
         int fragId = radioGroup.getCheckedRadioButtonId();
         Fragment frag = fragments.get(fragmentsMap.get(fragId));

@@ -9,7 +9,7 @@
         android:background="@drawable/round_win"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="60dp"
         android:layout_marginBottom="20dp"
         android:padding="6dp">
 

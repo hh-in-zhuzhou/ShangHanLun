@@ -34,6 +34,7 @@ public class SingletonData {
 
     public ShowFragment curFragment;
     public Activity curActivity;
+    public TipsWindow curTipsWindow;
     public List<LittleWindow> littleWindowStack = new ArrayList<>();
 
     // status

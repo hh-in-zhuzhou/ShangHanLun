@@ -318,9 +318,9 @@ public class ATableViewAdapter extends BaseAdapter implements OnScrollListener,
         // overridden.
         int rowHeight = ATableViewCell.LayoutParams.UNDEFINED;
         if (isFooterRow) {
-            rowHeight = mFootersHeight.get(section);
+            rowHeight = section < mFootersHeight.size() ? mFootersHeight.get(section) : 0;
         } else {
-            rowHeight = mHeadersHeight.get(section);
+            rowHeight = section < mHeadersHeight.size() ? mHeadersHeight.get(section) : 0;
         }
 
         // if undefined, set a valid height depending on table style, otherwise

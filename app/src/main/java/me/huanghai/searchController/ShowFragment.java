@@ -78,6 +78,15 @@ public class ShowFragment extends Fragment implements TextWatcher {
         SingletonData.getInstance().curFragment = this;
     }
 
+    @Override
+    public void onPause() {
+        if (tipsWindow != null && tipsWindow.isShowing()) {
+            tipsWindow.dismiss();
+        }
+        super.onPause();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         String title = null;
@@ -554,8 +563,11 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public void onTextChanged(final CharSequence s, final int start, int before, final int count) {
         // TODO Auto-generated method stub
         Log.e("textChaned:", s + ",start=" + start + ",before=" + before + ",count=" + count);
-        String[] words = s.toString().substring(0, searchEditText.getSelectionStart()).split(" ");
-        if (words.length > 0) {
+        setSearchText(s.toString());
+        String pre = s.toString().substring(0, searchEditText.getSelectionStart());
+        Log.e("pre:", "'" + pre + "'");
+        String[] words = pre.split(" ");
+        if (words.length > 0 && pre.length() > 0 && pre.charAt(pre.length() - 1) != ' ') {
             for (String w :
                     words) {
                 Log.e("words:", "'" + w + "'");
@@ -564,7 +576,7 @@ public class ShowFragment extends Fragment implements TextWatcher {
 
             if (lastWord.contains("y") || lastWord.contains("f")) {
 
-                if (tipsWindow == null) {
+                if (tipsWindow == null || !tipsWindow.isShowing()) {
                     tipsWindow = new TipsWindow();
                 }
                 tipsWindow.setClickLink(new ClickLink() {
@@ -591,8 +603,8 @@ public class ShowFragment extends Fragment implements TextWatcher {
             } else if (tipsWindow != null && tipsWindow.isShowing()) {
                 tipsWindow.dismiss();
             }
-        } else {
-            setSearchText(s.toString());
+        } else if (tipsWindow != null && tipsWindow.isShowing()) {
+            tipsWindow.dismiss();
         }
     }
 
@@ -605,12 +617,13 @@ public class ShowFragment extends Fragment implements TextWatcher {
         System.out.println("tapped:" + unit);
         int mid = charInAdd ? start + 1 : start;
 
-        String firstWord = s.toString().substring(0, searchEditText.getSelectionStart());
+        int pos = Math.min(searchEditText.getSelectionStart(), s.length());
+        String firstWord = s.toString().substring(0, pos);
         int fPos = firstWord.lastIndexOf(cls);
 
         String first = s.toString().substring(0, fPos + 1);
         String end = s.toString().substring(mid);
-        String search = first + unit + end + " ";
+        String search = first + unit + " " + end;
         searchEditText.setText(search);
         searchEditText.setSelection(first.length() + unit.length() + 1);
         setIsContentOpen(true);
