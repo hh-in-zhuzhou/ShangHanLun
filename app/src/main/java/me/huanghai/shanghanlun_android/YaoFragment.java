@@ -30,7 +30,7 @@ public class YaoFragment extends ShowFragment {
         super();
         // TODO Auto-generated constructor stub
         resetData(SingletonData.getInstance().getYaoData());
-        isContentOpen = true;
+//        isContentOpen = true;
         dataSource = new SubDataSource();
         delegate = new SubDelegate();
     }

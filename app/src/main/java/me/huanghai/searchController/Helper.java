@@ -97,10 +97,7 @@ public class Helper {
             }
 
             String strClass = textString.substring(pos + 1, pos + 2);
-            int color = getColoredTextByStrClass(strClass);
-            ForegroundColorSpan someSpan = new ForegroundColorSpan(color);
-            res.setSpan(someSpan, pos + 3, endPos,
-                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             if (strClass.equals("a") || strClass.equals("w")) {
                 res.setSpan(new RelativeSizeSpan(0.7f), pos + 3, endPos,
                         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -125,6 +122,12 @@ public class Helper {
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
+            // 把加颜色放到最后
+            int color = getColoredTextByStrClass(strClass);
+            ForegroundColorSpan someSpan = new ForegroundColorSpan(color);
+            res.setSpan(someSpan, pos + 3, endPos,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
             res.replace(endPos, endPos + 1, "");
             res.replace(pos, pos + 3, "");
             textString = res.toString();

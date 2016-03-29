@@ -33,7 +33,7 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
         super();
         // TODO Auto-generated constructor stub
         resetData(SingletonData.getInstance().getFang());
-        isContentOpen = true;
+//        isContentOpen = true;
         dataSource = new SubDataSource();
         delegate = new SubDelegate();
         linksStrings = new ArrayList<SpannableStringBuilder>();

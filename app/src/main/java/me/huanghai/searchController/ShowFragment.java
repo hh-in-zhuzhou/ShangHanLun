@@ -76,6 +76,16 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public void onResume() {
         super.onResume();
         SingletonData.getInstance().curFragment = this;
+        if (searchEditText != null) {
+            Log.e("onResume:", "is not null '" + searchText + "'");
+            if (searchText != null && searchText.length() > 0 && !searchText.equals(searchEditText.getText().toString())) {
+                Log.e("onResume:", "refresh tableView");
+                searchEditText.setText(data.size() > 0 ? searchText : "");
+            }
+        } else {
+            Log.e("onResume:", "is null");
+            setSearchText("");
+        }
     }
 
     @Override
