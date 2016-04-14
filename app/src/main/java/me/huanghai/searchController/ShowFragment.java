@@ -20,13 +20,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
+import com.nakardo.atableview.internal.ATableViewHeaderFooterCell;
 import com.nakardo.atableview.protocol.ATableViewDataSource;
 import com.nakardo.atableview.protocol.ATableViewDelegate;
 import com.nakardo.atableview.uikit.UILabel;
@@ -36,16 +39,20 @@ import com.nakardo.atableview.view.ATableViewCell;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellSelectionStyle;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellStyle;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.huanghai.shanghanlun_android.ClearEditText;
 import me.huanghai.shanghanlun_android.R;
 
-public class ShowFragment extends Fragment implements TextWatcher {
+public class ShowFragment extends Fragment implements TextWatcher, View.OnClickListener {
     protected String title;
     protected String searchText = null;
     protected String bookName;
@@ -58,11 +65,19 @@ public class ShowFragment extends Fragment implements TextWatcher {
     protected TextView numTips;
     TipsWindow tipsWindow;
 
+    protected Button selectBtn;
+    protected LinearLayout selectbtnsWrapper;
+    protected Button selectAllBtn;
+    protected Button copyItemsBtn;
+    protected Set<NSIndexPath> selectedItemsSet = new HashSet<>();
+
     protected int totalNum;
     protected boolean isContentOpen;
     protected NSIndexPath curIndexPath;
     protected SampleATableViewDataSource dataSource = new SampleATableViewDataSource();
     protected SampleATableViewDelegate delegate = new SampleATableViewDelegate();
+
+    protected Set<NSIndexPath> selectedRows = new HashSet<>();
 
     public ShowFragment() {
     }
@@ -96,6 +111,96 @@ public class ShowFragment extends Fragment implements TextWatcher {
         super.onPause();
     }
 
+    boolean isOnSelectMode() {
+        return selectBtn.getText().toString().equals("取消");
+    }
+
+    protected void togglePastMode() {
+        boolean startSelect = selectBtn.getText().equals("选择");
+        selectBtn.setText(startSelect ? "取消" : "选择");
+        searchEditText.setVisibility(startSelect ? View.GONE : View.VISIBLE);
+        selectbtnsWrapper.setVisibility(startSelect ? View.VISIBLE : View.GONE);
+        tableView.setAllowsMultipleSelection(startSelect);
+        selectedRows.clear();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == selectBtn) {
+            togglePastMode();
+        } else if (v == selectAllBtn) {
+            boolean startSelectAll = selectAllBtn.getText().equals("选择全部");
+            selectAllBtn.setText(startSelectAll ? "反选全部" : "选择全部");
+            int section = 0;
+            for (HH2SectionData sec :
+                    data) {
+                int row = 0;
+                for (DataItem item :
+                        sec.getData()) {
+                    if (startSelectAll) {
+                        selectedRows.add(NSIndexPath.indexPathForRowInSection(row, section));
+                    } else {
+                        selectedRows.remove(NSIndexPath.indexPathForRowInSection(row, section));
+                    }
+                    row++;
+                }
+                section++;
+            }
+//            Log.e("selectAll", "size:" + selectedRows.size());
+//            for (int i = 0; i < tableView.getChildCount(); i++) {
+//                View cell = tableView.getChildAt(i);
+//                if (cell instanceof ATableViewCell) {
+//                    Log.e("cell", "start");
+//                    if ((startSelectAll && !cell.isSelected()) ||
+//                            (!startSelectAll && cell.isSelected())) {
+//                        Log.e("cell", "perform click!");
+//                        tableView.performItemClick(cell, i, tableView.getItemIdAtPosition(i));
+//                    }
+//                }
+//            }
+        } else if (v == copyItemsBtn) {
+            if (selectedRows.size() == 0) {
+                Toast.makeText(getActivity(), "您未选择要拷贝的条目", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Object[] rows = selectedRows.toArray();
+            java.util.Arrays.sort(rows, new Comparator<Object>() {
+                @Override
+                public int compare(Object lhs, Object rhs) {
+                    NSIndexPath left = (NSIndexPath) lhs;
+                    NSIndexPath right = (NSIndexPath) rhs;
+                    if (left.getSection() != right.getSection()) {
+                        return left.getSection() - right.getSection();
+                    } else {
+                        return left.getRow() - right.getRow();
+                    }
+                }
+            });
+
+            StringBuilder res = new StringBuilder();
+            res.append("伤寒论\n");
+            int lastSection = -1;
+            for (Object ip :
+                    rows) {
+                NSIndexPath p = (NSIndexPath) ip;
+                if (p.getSection() != lastSection) {
+                    if (lastSection > -1) {
+                        res.append("\n");
+                    }
+                    lastSection = p.getSection();
+                    res.append(data.get(lastSection).getHeader());
+                    res.append("\n");
+                }
+                res.append(data.get(lastSection).getData().get(p.getRow()).getAttributedText().toString());
+                res.append("\n");
+            }
+            res.deleteCharAt(res.length() - 1);
+            Helper.putStringToClipboard(res.toString());
+            togglePastMode();
+            Toast.makeText(getActivity(), "已拷贝到剪贴板", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -111,6 +216,13 @@ public class ShowFragment extends Fragment implements TextWatcher {
         view = inflater.inflate(R.layout.activity_main, null);
         searchEditText = (ClearEditText) view.findViewById(R.id.searchEditText);
         numTips = (TextView) view.findViewById(R.id.numTips);
+        selectBtn = (Button) view.findViewById(R.id.selectbtn);
+        selectBtn.setOnClickListener(this);
+//        selectAllBtn = (Button) view.findViewById(R.id.selectallbtn);
+        copyItemsBtn = (Button) view.findViewById(R.id.copyitemsbtn);
+//        selectAllBtn.setOnClickListener(this);
+        copyItemsBtn.setOnClickListener(this);
+        selectbtnsWrapper = (LinearLayout) view.findViewById(R.id.selectbtnswrapper);
         searchEditText.setNumTips(numTips);
         searchEditText.addTextChangedListener(ShowFragment.this);
         // title = "桂枝汤"; //这里有一个奇怪的问题，如果取消注释，会有奇怪的bug，原因不明
@@ -408,8 +520,8 @@ public class ShowFragment extends Fragment implements TextWatcher {
     public class SampleATableViewDataSource extends ATableViewDataSource {
 
         @Override
-        public ATableViewCell cellForRowAtIndexPath(ATableView tableView,
-                                                    NSIndexPath indexPath) {
+        public ATableViewCell cellForRowAtIndexPath(final ATableView tableView,
+                                                    final NSIndexPath indexPath) {
             // TODO Auto-generated method stub
             final String cellIdentifier = "CellReuse";
 
@@ -500,10 +612,37 @@ public class ShowFragment extends Fragment implements TextWatcher {
             return ATableViewCell.LayoutParams.UNDEFINED;
         }
 
+//        @Override
+//        public void willDisplayCellForRowAtIndexPath(ATableView tableView, ATableViewCell cell, NSIndexPath indexPath) {
+//            if (isOnSelectMode()) {
+//
+//            }
+//        }
+
+
+        @Override
+        public void postDidSelectCell(ATableView tableView, ATableViewCell cell, NSIndexPath indexPath) {
+            if (isOnSelectMode()) {
+                if (cell.isSelected()) {
+                    selectedRows.add(indexPath);
+                    Log.e("did select!", "size:" + selectedRows.size());
+                } else {
+                    selectedRows.remove(indexPath);
+                    Log.e("did de select!", "size:" + selectedRows.size());
+                }
+            }
+        }
+
         public void didSelectRowAtIndexPath(ATableView tableView,
                                             NSIndexPath indexPath) {
             curIndexPath = indexPath;
             hideKeyboard();
+            if (isOnSelectMode()) {
+//                selectedItemsSet.add(curIndexPath);
+//                tableView.getCheckedItemPositions();
+//                Log.e("didSelect", "inOnSelectMode");
+                return;
+            }
             clickRowAtIndexPath(tableView, indexPath);
             tableView.clearChoices();
             tableView.requestLayout();

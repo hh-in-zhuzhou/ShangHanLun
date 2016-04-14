@@ -5,48 +5,99 @@
     android:animateLayoutChanges="true"
     tools:context="${relativePackage}.${activityClass}">
 
-    <FrameLayout
-        android:id="@+id/titlebar"
+    <RelativeLayout
+        android:id="@+id/titlebarwrapper"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_gravity="center_vertical"
-        android:background="#000000"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:orientation="horizontal">
 
-        <me.huanghai.shanghanlun_android.ClearEditText
-            android:id="@+id/searchEditText"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_margin="8dp"
-            android:background="@drawable/corners"
-            android:drawableLeft="@drawable/magnifying11"
-            android:drawableRight="@drawable/delete_selector"
-            android:hint="输入搜索词或数字以定位到该条"
-            android:inputType="text"
-            android:paddingLeft="0dp"
-            android:paddingRight="9dp"
-            android:singleLine="true"
-            android:textSize="15dp" />
+        <Button
+            android:id="@+id/selectbtn"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="-4dp"
+            android:background="#000000"
+            android:text="选择"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/numTips"
+        <FrameLayout
+            android:id="@+id/titlebar"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_gravity="right"
-            android:layout_marginRight="38dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            android:textSize="12dp"
-            android:textColor="#888888" />
-    </FrameLayout>
+            android:layout_height="44dp"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
+            android:background="#000000"
+            android:focusable="true"
+            android:layout_toLeftOf="@id/selectbtn"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <me.huanghai.shanghanlun_android.ClearEditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="8dp"
+                android:background="@drawable/corners"
+                android:drawableLeft="@drawable/magnifying11"
+                android:drawableRight="@drawable/delete_selector"
+                android:hint="输入搜索词或数字以定位到该条"
+                android:inputType="text"
+                android:paddingLeft="0dp"
+                android:paddingRight="9dp"
+                android:singleLine="true"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/numTips"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="right"
+                android:layout_marginRight="38dp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#888888"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:id="@+id/selectbtnswrapper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:visibility="gone">
+                <!--Button
+                    android:id="@+id/selectallbtn"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="选择全部"
+                    android:textSize="14dp"
+                    android:textColor="#ffffff"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/round_win_black_black"/-->
+                <Button
+                    android:id="@+id/copyitemsbtn"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:text="拷贝"
+                    android:textSize="14dp"
+                    android:textColor="#ffffff"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/round_win_black_black" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
 
     <com.nakardo.atableview.view.ATableView
         android:id="@+id/tableview"
-        android:layout_below="@id/titlebar"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/titlebarwrapper" />
 
 
 </RelativeLayout>

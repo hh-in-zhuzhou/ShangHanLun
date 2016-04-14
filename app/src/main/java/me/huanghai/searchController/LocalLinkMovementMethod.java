@@ -14,6 +14,9 @@ import com.nakardo.atableview.uikit.UILabel;
 public class LocalLinkMovementMethod extends LinkMovementMethod {
     static LocalLinkMovementMethod sInstance;
 
+    private long lastClickTime;
+    private static final long CLICK_DELAY = 1000l;
+
     public static LocalLinkMovementMethod getInstance() {
         if (sInstance == null)
             sInstance = new LocalLinkMovementMethod();
@@ -46,12 +49,14 @@ public class LocalLinkMovementMethod extends LinkMovementMethod {
 
             if (link.length != 0) {
                 if (action == MotionEvent.ACTION_UP) {
-                    link[0].onClick(widget);
-//					showPopupWindow(widget, event);
+                    if (System.currentTimeMillis() - lastClickTime < CLICK_DELAY) {
+                        link[0].onClick(widget);
+                    }
                 } else if (action == MotionEvent.ACTION_DOWN) {
                     Selection.setSelection(buffer,
                             buffer.getSpanStart(link[0]),
                             buffer.getSpanEnd(link[0]));
+                    lastClickTime = System.currentTimeMillis();
                 }
 
                 if (widget instanceof UILabel) {
@@ -60,8 +65,6 @@ public class LocalLinkMovementMethod extends LinkMovementMethod {
                 return true;
             } else {
                 Selection.removeSelection(buffer);
-                Touch.onTouchEvent(widget, buffer, event);
-                return false;
             }
         }
         return Touch.onTouchEvent(widget, buffer, event);

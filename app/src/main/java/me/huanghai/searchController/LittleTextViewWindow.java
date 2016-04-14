@@ -11,9 +11,11 @@ import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -257,6 +259,14 @@ public class LittleTextViewWindow extends LittleWindow {
         textView.setText(getSpanString(s));
         textView.setMovementMethod(LocalLinkMovementMethod
                 .getInstance());
+//        textView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                v.getParent().requestDisallowInterceptTouchEvent(true);//通知父控件勿拦截本控件touch事件
+//                return false;
+//            }
+//        });
+
         ArrowView arrow = (ArrowView) view.findViewById(R.id.arrow);
         arrow.setDirection(direction);
         arrow.setLayoutParams(arrowParams);

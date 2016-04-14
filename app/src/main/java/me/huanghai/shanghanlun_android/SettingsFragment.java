@@ -36,8 +36,8 @@ public class SettingsFragment extends Fragment {
             "检查有无新版发布",
     };
     private String[] aboutInfo = {
-            "3.0 beta 22",
-            "修复了下拉提示框的错误",
+            "3.0 beta 24",
+            "支持自由选择条目复制",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",

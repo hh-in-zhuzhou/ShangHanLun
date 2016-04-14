@@ -25,4 +25,16 @@ public class NSIndexPath {
     public String toString() {
         return "[" + mRow + ", " + mSection + "]";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        NSIndexPath ip = (NSIndexPath) o;
+        return mRow == ip.getRow() && mSection == ip.getSection();
+    }
+
+    @Override
+    public int hashCode() {
+        String str = mSection + "," + mRow;
+        return str.hashCode();
+    }
 }

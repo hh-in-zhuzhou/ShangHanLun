@@ -40,15 +40,4 @@ public class ATableViewCellContainerView extends LinearLayout {
 
         super.setPressed(pressed);
     }
-
-//	public boolean onInterceptTouchEvent(MotionEvent ev){
-//		Log.d("cell intercept", "runs!");
-//		return false;
-//	}
-//	
-//	public boolean onTouchEvent(MotionEvent ev){
-//		Log.d("cell touch", "runs!");
-//		super.onTouchEvent(ev);
-//		return false;
-//	}
 }

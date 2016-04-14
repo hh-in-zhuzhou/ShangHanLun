@@ -101,7 +101,8 @@ public class LittleTableViewWindow extends LittleWindow {
             }
             if (SingletonData.getInstance().getAllFang().contains(left)
                     && start > 0
-                    && builder.toString().substring(start - 1, start).equals("、")) {
+                    && builder.toString().substring(start - 1, start).equals("、")
+                    && builder.charAt(0) != '*') {
                 return true;
             }
         }

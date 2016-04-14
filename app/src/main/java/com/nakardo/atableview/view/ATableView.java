@@ -430,7 +430,6 @@ public class ATableView extends ListView {
                     mAdapter.getHeaderFooterRowHeight(0, false));
             HeaderView.setLayoutParams(params);
             HeaderView.requestLayout();
-            // 看有没办法中断其事件传递。
 
             setHeaderView(HeaderView);
         }
@@ -478,13 +477,13 @@ public class ATableView extends ListView {
         return super.onInterceptTouchEvent(ev);
     }
 
-    @Override
-    protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,
-                                   int scrollY, int scrollRangeX, int scrollRangeY,
-                                   int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-        // 实现的本质就是在这里动态改变了maxOverScrollY的值
-        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
-                scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY,
-                isTouchEvent);
-    }
+//    @Override
+//    protected boolean overScrollBy(int deltaX, int deltaY, int scrollX,
+//                                   int scrollY, int scrollRangeX, int scrollRangeY,
+//                                   int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
+//        // 实现的本质就是在这里动态改变了maxOverScrollY的值
+//        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY,
+//                scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY,
+//                isTouchEvent);
+//    }
 }

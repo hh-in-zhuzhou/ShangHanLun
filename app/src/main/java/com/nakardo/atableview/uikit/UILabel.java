@@ -15,6 +15,8 @@ public class UILabel extends TextView {
     private boolean dontConsumeNonUrlClicks = true;
     public boolean linkHit;
 
+    public boolean isMoved = false;
+
     private static boolean assetExists(Context context, String path) {
         boolean exists = false;
         try {

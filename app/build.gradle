@@ -8,12 +8,12 @@ android {
         applicationId "me.huanghai.shanghanlun_android"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 22
+        versionCode 24
         versionName "3.0"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

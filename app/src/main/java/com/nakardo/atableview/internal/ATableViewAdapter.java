@@ -166,6 +166,17 @@ public class ATableViewAdapter extends BaseAdapter implements OnScrollListener,
         return sectionHeights.get(sectionHeights.size() - 1);
     }
 
+    public int getPosition(NSIndexPath indexPath) {
+        int maxSection = indexPath.getSection();
+        int pos = 0;
+        for (int i = 0; i < maxSection; i++) {
+            int rows = mRows.get(i);
+            pos += rows + getHeaderFooterCountOffset(i);
+        }
+        pos += 1 + indexPath.getRow();
+        return pos;
+    }
+
     public NSIndexPath getIndexPath(int position) {
         // closes #18, set offset in one by default only if we've a header in
         // the very first
