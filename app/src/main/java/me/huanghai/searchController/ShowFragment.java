@@ -392,8 +392,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
 
                     // 开始匹配
                     if (type < 0) {
-                        found = p.matcher(sourceString).find()
-                                || p.matcher(item.getText()).find();
+                        found = p.matcher(sourceString).find();
                     } else if (type >= 0) {
                         String[] list = type == 0 ? item.getYaoList()
                                 : item.getFangList();
@@ -433,10 +432,17 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                                     item.getAttributedText());
                             int lastPos = 0;
                             while (m.find()) {
-                                int index = m.start();
-                                int end = m.end();
-                                index += lastPos;
-                                end += lastPos;
+                                int index = m.start() + lastPos;
+                                int end = m.end() + lastPos;
+                                if (index == end) {
+                                    lastPos = end + 1;
+                                    if (lastPos > sourceString.length() - 1) {
+                                        break;
+                                    }
+                                    m = p.matcher(sourceString.substring(lastPos));
+                                    continue;
+                                }
+
                                 builder.setSpan(
                                         new ForegroundColorSpan(Color.RED),
                                         index,
