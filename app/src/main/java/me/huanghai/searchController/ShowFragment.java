@@ -382,7 +382,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                     // System.out.println("keywords:" + text_);
                     String sourceString = item.getAttributedText().toString();
 
-                    if (text.charAt(0) == '*') {
+                    if (text.length() > 0 && text.charAt(0) == '*') {
                         text = text.substring(1);
                     }
                     if (text.length() == 2 && text.charAt(1) == '*') {
