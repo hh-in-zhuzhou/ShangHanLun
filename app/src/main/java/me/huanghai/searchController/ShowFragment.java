@@ -388,7 +388,13 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                     if (text.length() == 2 && text.charAt(1) == '*') {
                         text = text.substring(0, 1);
                     }
-                    Pattern p = Pattern.compile(text);
+                    Pattern p = null;
+                    try {
+                        p = Pattern.compile(text);
+                    } catch (Exception e) {
+                        text = ".";
+                        p = Pattern.compile(text);
+                    }
 
                     // 开始匹配
                     if (type < 0) {
