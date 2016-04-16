@@ -382,47 +382,30 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                     // System.out.println("keywords:" + text_);
                     String sourceString = item.getAttributedText().toString();
 
+                    if (text.charAt(0) == '*') {
+                        text = text.substring(1);
+                    }
+                    if (text.length() == 2 && text.charAt(1) == '*') {
+                        text = text.substring(0, 1);
+                    }
                     Pattern p = Pattern.compile(text);
 
-                    // Matcher m = p.matcher(text);
-                    // String res = m.find() ? m.group() : "";
-                    if (text.contains(".")) {
-                        if (type < 0) {
-                            found = p.matcher(sourceString).find()
-                                    || p.matcher(item.getText()).find();
-                        } else if (type >= 0) {
-                            String[] list = type == 0 ? item.getYaoList()
-                                    : item.getFangList();
-                            found = false;
-                            for (String item_ : list) {
-                                String it = dict.get(item_);
-                                if (it == null) {
-                                    it = item_;
-                                }
-                                found = p.matcher(it).find();
-                                if (found) {
-                                    break;
-                                }
+                    // 开始匹配
+                    if (type < 0) {
+                        found = p.matcher(sourceString).find()
+                                || p.matcher(item.getText()).find();
+                    } else if (type >= 0) {
+                        String[] list = type == 0 ? item.getYaoList()
+                                : item.getFangList();
+                        found = false;
+                        for (String item_ : list) {
+                            String it = dict.get(item_);
+                            if (it == null) {
+                                it = item_;
                             }
-                        }
-                    } else {
-                        if (type < 0) {
-                            found = sourceString.contains(text)
-                                    || item.getText().contains(text);
-                        } else if (type >= 0) {
-                            String[] list = type == 0 ? item.getYaoList()
-                                    : item.getFangList();
-                            found = false;
-                            for (String item_ : list) {
-                                String it = dict.get(item_);
-                                if (it == null) {
-                                    it = item_;
-                                }
-//                                found = it.contains(right);
-                                found = it.equals(right);
-                                if (found) {
-                                    break;
-                                }
+                            found = p.matcher(it).find();
+                            if (found) {
+                                break;
                             }
                         }
                     }
@@ -451,16 +434,21 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                             int lastPos = 0;
                             while (m.find()) {
                                 int index = m.start();
+                                int end = m.end();
                                 index += lastPos;
+                                end += lastPos;
                                 builder.setSpan(
                                         new ForegroundColorSpan(Color.RED),
                                         index,
-                                        index + text.length(),
+                                        end,
                                         SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 if (onlyOnce) {
                                     break;
                                 }
-                                lastPos = index + text.length();
+                                lastPos = end;
+                                if (lastPos > sourceString.length() - 1) {
+                                    break;
+                                }
                                 m = p.matcher(sourceString.substring(lastPos));
                             }
                             item.setAttributedText(builder);

@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,7 @@ public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
     private int choice = 2;
+    private String version = "3.0 beta 26";
 
     private String[] about = {
             "当前版本",
@@ -36,8 +39,8 @@ public class SettingsFragment extends Fragment {
             "检查有无新版发布",
     };
     private String[] aboutInfo = {
-            "3.0 beta 24",
-            "支持自由选择条目复制",
+            version,
+            "支持正则表达式",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",
@@ -160,11 +163,18 @@ public class SettingsFragment extends Fragment {
                     putStringToClipboard("464024993");
                     Toast.makeText(getActivity(), "群号已复制到剪贴板", Toast.LENGTH_SHORT).show();
                 } else if (row == 4) {
-                    putStringToClipboard("http://www.huanghai.me");
-                    Toast.makeText(getActivity(), "网址已复制到剪贴板", Toast.LENGTH_SHORT).show();
+//                    putStringToClipboard("http://www.huanghai.me");
+//                    Toast.makeText(getActivity(), "网址已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                    final Uri uri = Uri.parse("http://www.huanghai.me");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
                 } else if (row == 2) {
                     putStringToClipboard("23891995");
                     Toast.makeText(getActivity(), "作者qq号已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                } else if (row == 5) {
+                    final Uri uri = Uri.parse("http://www.huanghai.me/cur_version.php?ver=" + version);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
                 }
             } else if (indexPath.getSection() == 1) {
                 boolean changed = false;
