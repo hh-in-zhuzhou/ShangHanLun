@@ -731,7 +731,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                 tipsWindow.setClickLink(new ClickLink() {
                     // 这里是点击下拉框后修改搜索框文字的方法
                     public void clickThis(TextView tv, ClickableSpan clickableSpan) {
-                        processClickTips(tv, s, start, count > 0, lastWord.contains("y") ? 'y' : 'f');
+                        processClickTips(tv, s, start, count, lastWord.contains("y") ? 'y' : 'f');
                     }
 
                     @Override
@@ -757,22 +757,25 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
         }
     }
 
-    protected void processClickTips(TextView tv, CharSequence s, int start, boolean charInAdd, char cls) {
+    protected void processClickTips(TextView tv, CharSequence s, int start, int count, char cls) {
         Log.e("click:textChaned:", s + ",start=" + start);
+        boolean charInAdd = count > 0;
         String unit = tv
                 .getText()
                 .subSequence(tv.getSelectionStart(),
                         tv.getSelectionEnd()).toString();
-        System.out.println("tapped:" + unit);
-        int mid = charInAdd ? start + 1 : start;
+        Log.e("tapped:", unit);
+        int mid = charInAdd ? start + count : start;
 
         int pos = Math.min(searchEditText.getSelectionStart(), s.length());
         String firstWord = s.toString().substring(0, pos);
+        Log.e("firstWord:", firstWord);
         int fPos = firstWord.lastIndexOf(cls);
 
         String first = s.toString().substring(0, fPos + 1);
         String end = s.toString().substring(mid);
         String search = first + unit + " " + end;
+        Log.e("search->:", "first:" + first + ", end:" + end + ",search:" + search);
         searchEditText.setText(search);
         searchEditText.setSelection(first.length() + unit.length() + 1);
         setIsContentOpen(true);

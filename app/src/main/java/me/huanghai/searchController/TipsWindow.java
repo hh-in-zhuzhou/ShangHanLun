@@ -103,7 +103,12 @@ public class TipsWindow extends LittleWindow {
             }
             search = units.length > 0 ? units[units.length - 1] : ".";
         }
-        Pattern p = Pattern.compile(search);
+        Pattern p = null;
+        try {
+            p = Pattern.compile(search);
+        } catch (Exception e) {
+            p = Pattern.compile(".");
+        }
         for (String str :
                 groups) {
             if (p.matcher(str).find()) {
