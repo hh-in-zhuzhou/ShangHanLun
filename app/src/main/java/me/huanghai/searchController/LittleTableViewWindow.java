@@ -146,7 +146,9 @@ public class LittleTableViewWindow extends LittleWindow {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
-
+        if (rect == null) {
+            rect = new Rect();
+        }
         int midY = rect.top + rect.height() / 2;
         int midX = rect.left + rect.width() / 2;
         int screenMidX = screenWidth / 2;
