@@ -133,7 +133,6 @@ public class LittleTableViewWindow extends LittleWindow {
         return false;
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mGroup = (ViewGroup) getActivity().getWindow().getDecorView();

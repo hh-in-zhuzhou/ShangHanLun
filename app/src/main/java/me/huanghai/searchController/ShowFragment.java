@@ -63,7 +63,8 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
     protected ClearEditText searchEditText;
     protected ATableView tableView;
     protected TextView numTips;
-    TipsWindow tipsWindow;
+    protected TipsWindow tipsWindow;
+    protected View titleTextView = null;
 
     protected Button selectBtn;
     protected LinearLayout selectbtnsWrapper;
@@ -120,6 +121,11 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
         selectBtn.setText(startSelect ? "取消" : "选择");
         searchEditText.setVisibility(startSelect ? View.GONE : View.VISIBLE);
         selectbtnsWrapper.setVisibility(startSelect ? View.VISIBLE : View.GONE);
+        if (titleTextView != null) {
+            titleTextView.setVisibility(startSelect ? View.GONE : View.VISIBLE);
+            searchEditText.setVisibility(View.GONE);
+            numTips.setVisibility(View.GONE);
+        }
         tableView.setAllowsMultipleSelection(startSelect);
         selectedRows.clear();
     }
@@ -235,6 +241,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                 setSearchText(String.format("f%s", title));
             }
 
+            searchEditText.setText("");
             searchEditText.setVisibility(View.GONE);
             numTips.setVisibility(View.GONE);
             TextView textView = new TextView(getActivity()
@@ -244,6 +251,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
             textView.setGravity(Gravity.CENTER);
             FrameLayout layout = (FrameLayout) view.findViewById(R.id.titlebar);
             layout.addView(textView);
+            titleTextView = textView;
         }
 
         tableView = (ATableView) view.findViewById(R.id.tableview);
