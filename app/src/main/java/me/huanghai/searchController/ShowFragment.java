@@ -241,8 +241,8 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                 setSearchText(String.format("f%s", title));
             }
 
-            searchEditText.setText("");
             searchEditText.setVisibility(View.GONE);
+            searchEditText.setNumTips(null);
             numTips.setVisibility(View.GONE);
             TextView textView = new TextView(getActivity()
                     .getApplicationContext());

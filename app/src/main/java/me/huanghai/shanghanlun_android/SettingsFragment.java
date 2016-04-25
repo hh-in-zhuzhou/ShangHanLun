@@ -28,7 +28,7 @@ public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
     private int choice = 2;
-    private String version = "3.0 beta 28";
+    private String version = "3.0.0.1";
 
     private String[] about = {
             "当前版本",
@@ -40,7 +40,7 @@ public class SettingsFragment extends Fragment {
     };
     private String[] aboutInfo = {
             version,
-            "紧急修复bug",
+            "正式版+",
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",
