@@ -6,8 +6,12 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import DataBeans.Fang;
+import DataBeans.Yao;
 
 public class SingletonData {
     private View mask;
@@ -36,6 +43,8 @@ public class SingletonData {
     public Activity curActivity;
     public TipsWindow curTipsWindow;
     public List<LittleWindow> littleWindowStack = new ArrayList<>();
+
+    public Gson gson = new Gson();
 
     // status
     public boolean isSeeingContextInSearchMode = false;
@@ -224,8 +233,10 @@ public class SingletonData {
 
         allFang = new ArrayList<String>();
         for (HH2SectionData sec : fang) {
-            for (DataItem item : sec.getData()) {
-                String s = item.getFangList()[0];
+            List<? extends DataItem> d = sec.getData();
+            Log.e("-d->",d.get(0).toString());
+            for (DataItem item : d) {
+                String s = item.getFangList().get(0);
                 String s2 = fangAliasDict.get(s);
                 if (s2 == null) {
                     s2 = s;
@@ -235,20 +246,20 @@ public class SingletonData {
         }
 
         // 再读取药物列表
-        String string = FucUtil.readFile(MyApplication.getAppContext(),
-                "yao.txt");
-        yao = string.split("[\n\r]*-----[\n\r]*");
-        for (int i = 0; i < yao.length; i++) {
-            String tmp = yao[i];
-            yao[i] = String.format("%d、%s", i + 1, tmp);
-        }
+        String string = FucUtil.readFile(MyApplication.getAppContext(),"yao.json");
+//        yao = string.split("[\n\r]*-----[\n\r]*");
+//        for (int i = 0; i < yao.length; i++) {
+//            String tmp = yao[i];
+//            yao[i] = String.format("%d、%s", i + 1, tmp);
+//        }
         yaoData = new ArrayList<HH2SectionData>();
-        yaoData.add(new HH2SectionData(yao, 0, "伤寒金匮所有药物"));
+        List<Yao> tmp = gson.fromJson(string, new TypeToken<List<Yao>>() {}.getType());
+        yaoData.add(new HH2SectionData(tmp, 0, "伤寒金匮所有药物"));
 
         allYao = new ArrayList<String>();
         for (HH2SectionData sec : yaoData) {
             for (DataItem item : sec.getData()) {
-                String s = item.getYaoList()[0];
+                String s = item.getYaoList().get(0);
                 String s2 = yaoAliasDict.get(s);
                 if (s2 == null) {
                     s2 = s;
@@ -261,59 +272,32 @@ public class SingletonData {
     public void reReadContent() {
         // 先读取条文
         content = null;
-        String string = FucUtil.readFile(MyApplication.getAppContext(),
-                isSimple ? "shangHan_data_simple.json" : "shangHan_data.json");
-        content = new ArrayList<HH2SectionData>();
-        try {
-            JSONArray array = new JSONArray(string);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                HH2SectionData d = new HH2SectionData(object, i);
-                content.add(d);
-            }
-            if (showJinkui) {
-                int start = content.size();
-                string = FucUtil.readFile(MyApplication.getAppContext(),
-                        "jinKui_data.json");
-                array = new JSONArray(string);
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject object = array.getJSONObject(i);
-                    HH2SectionData d = new HH2SectionData(object, start + i);
-                    content.add(d);
-                }
-            }
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        String string = FucUtil.readFile(MyApplication.getAppContext(), "shangHan_data.json");
+        content = gson.fromJson(string, new TypeToken<List<HH2SectionData>>(){}.getType());
+        if (showJinkui) {
+            int start = content.size();
+            string = FucUtil.readFile(MyApplication.getAppContext(),
+                    "jinKui_data.json");
+            List<HH2SectionData> jinkui = gson.fromJson(string, new TypeToken<List<HH2SectionData>>() {}.getType());
+            content.addAll(jinkui);
         }
     }
 
     public void reReadFang() {
         // 再读取方药
-        fang = null;
+        fang = new ArrayList<HH2SectionData>();
         String string = FucUtil.readFile(MyApplication.getAppContext(),
                 "shangHan_fang.json");
-        fang = new ArrayList<HH2SectionData>();
-        try {
-            JSONArray array = new JSONArray(string);
-            JSONObject object = new JSONObject();
-            object.put("header", "伤寒论方");
-            object.put("data", array);
-            fang.add(new HH2SectionData(object, 0));
+        List<Fang> tmp = gson.fromJson(string, new TypeToken<List<Fang>>() {}.getType());
+        fang.add(new HH2SectionData(tmp, 0, "伤寒论方"));
 
-            if (showJinkui) {
-                string = FucUtil.readFile(MyApplication.getAppContext(),
-                        "jinKui_fang.json");
-                array = new JSONArray(string);
-                object = new JSONObject();
-                object.put("header", "金匮要略方");
-                object.put("data", array);
-                fang.add(new HH2SectionData(object, 1));
-            }
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        if (showJinkui) {
+            string = FucUtil.readFile(MyApplication.getAppContext(),
+                    "jinKui_fang.json");
+            List<Fang> jinkui = gson.fromJson(string, new TypeToken<List<Fang>>() {}.getType());
+            fang.add(new HH2SectionData(jinkui, 1, "金匮要略方"));
         }
+
     }
 
     public static SingletonData getInstance() {

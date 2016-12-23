@@ -56,10 +56,10 @@ public class FangFragment extends ShowFragment implements ActionSheet.ActionShee
     public void resetLinkStrings() {
         for (int i = 0; i < data.size(); i++) {
             SpannableStringBuilder builder = new SpannableStringBuilder();
-            List<DataItem> list = data.get(i).getData();
+            List<? extends DataItem> list = data.get(i).getData();
             for (DataItem item : list) {
                 builder.append(Helper.renderText(String.format("$f{%s}，",
-                        item.getFangList()[0])));
+                        item.getFangList().get(0))));
             }
             if (i < linksStrings.size()) {
                 linksStrings.set(i, builder);

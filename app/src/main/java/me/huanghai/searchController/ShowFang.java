@@ -68,7 +68,7 @@ public class ShowFang {
             for (HH2SectionData sec : single.getFang()) {
                 found = false;
                 for (DataItem item : sec.getData()) {
-                    String string = item.getFangList()[0];
+                    String string = item.getFangList().get(0);
                     String left = fangDict.get(string);
                     if (left == null) {
                         left = string;

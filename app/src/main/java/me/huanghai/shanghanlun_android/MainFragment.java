@@ -9,6 +9,8 @@ import com.nakardo.atableview.foundation.NSIndexPath;
 import com.nakardo.atableview.view.ATableView;
 import com.nakardo.atableview.view.ATableViewCell;
 
+import java.util.List;
+
 import me.huanghai.searchController.DataItem;
 import me.huanghai.searchController.HH2SectionData;
 import me.huanghai.searchController.Helper;
@@ -84,17 +86,17 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
         // super.clickRowAtIndexPath(tableView, indexPath);
         DataItem item = data.get(indexPath.getSection()).getData()
                 .get(indexPath.getRow());
-        String[] fangList = item.getFangList();
+        List<String> fangList = item.getFangList();
         boolean strIsNull = Helper.strLengh(searchText) == 0;
-        String[] menuList = new String[fangList.length + (strIsNull ? 3 : 4)];
+        String[] menuList = new String[fangList.size() + (strIsNull ? 3 : 4)];
         menuList[0] = "拷贝本条";
         menuList[1] = "拷贝本章全部内容";
         menuList[2] = "拷贝全部结果";
-        for (int i = 0; i < fangList.length; i++) {
-            menuList[3 + i] = "查看“" + fangList[i] + "”";
+        for (int i = 0; i < fangList.size(); i++) {
+            menuList[3 + i] = "查看“" + fangList.get(i) + "”";
         }
         if (!strIsNull) {
-            menuList[fangList.length + 3] = "查看上下文";
+            menuList[fangList.size() + 3] = "查看上下文";
         }
 
         ActionSheet.createBuilder(getActivity(), getFragmentManager())

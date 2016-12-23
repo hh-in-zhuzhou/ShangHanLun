@@ -120,7 +120,7 @@ public class LittleTextViewWindow extends LittleWindow {
         if (!onlyShowRelatedFang()) {
             for (HH2SectionData sec : single.getYaoData()) {
                 for (DataItem item : sec.getData()) {
-                    String yao__ = item.getYaoList()[0];
+                    String yao__ = item.getYaoList().get(0);
                     String left = yaoDict.get(yao__);
                     if (left == null) {
                         left = yao__;
@@ -151,7 +151,7 @@ public class LittleTextViewWindow extends LittleWindow {
                     if (left.equals(right)) {
                         count++;
                         spanIn.append(Helper.renderText("$f{"
-                                + item.getFangList()[0] + "}、"));
+                                + item.getFangList().get(0) + "}、"));
                         break;
                     }
                 }

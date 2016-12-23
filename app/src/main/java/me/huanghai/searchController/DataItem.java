@@ -1,25 +1,28 @@
 package me.huanghai.searchController;
 
 import android.text.SpannableStringBuilder;
+import android.util.Log;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class DataItem {
+    private int ID;
     private String text;
     private SpannableStringBuilder attributedText;
     private NSIndexPath indexPath;
-    private String[] fangList;
-    private String[] yaoList;
+    private List<String> fangList;
+    private List<String> yaoList;
 
     void setText(String text_) {
         text = text_;
         // TODO:compute other property;
         attributedText = Helper.renderText(text);
-        fangList = getFangNameList(text);
-        yaoList = getYaoNameList(text);
+//        fangList = getFangNameList(text);
+//        yaoList = getYaoNameList(text);
     }
 
     public DataItem getCopy() {
@@ -37,11 +40,11 @@ public class DataItem {
         text = text_;
     }
 
-    public void setFangList(String[] fang) {
+    public void setFangList(List<String> fang) {
         fangList = fang;
     }
 
-    public void setYaoList(String[] yao) {
+    public void setYaoList(List<String> yao) {
         yaoList = yao;
     }
 
@@ -50,6 +53,10 @@ public class DataItem {
     }
 
     public SpannableStringBuilder getAttributedText() {
+        if (attributedText != null) {
+            return attributedText;
+        }
+        attributedText = Helper.renderText(text);
         return attributedText;
     }
 
@@ -65,12 +72,12 @@ public class DataItem {
         indexPath = indexPath_;
     }
 
-    public String[] getFangList() {
-        return fangList;
+    public List<String> getFangList() {
+        return fangList == null ? new ArrayList<String>() : fangList;
     }
 
-    public String[] getYaoList() {
-        return yaoList;
+    public List<String> getYaoList() {
+        return yaoList == null ? new ArrayList<String>() : yaoList;
     }
 
     public DataItem() {

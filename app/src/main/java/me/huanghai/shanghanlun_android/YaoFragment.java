@@ -83,7 +83,7 @@ public class YaoFragment extends ShowFragment {
             for (HH2SectionData sec : data) {
                 for (DataItem item : sec.getData()) {
                     builder.append(Helper.renderText(String.format("$u{%s}，",
-                            item.getYaoList()[0])));
+                            item.getYaoList().get(0))));
                 }
             }
             linksString = builder;

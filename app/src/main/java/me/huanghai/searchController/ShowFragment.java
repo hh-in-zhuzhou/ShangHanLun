@@ -282,7 +282,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                 for (String y :
                         item.getYaoList()) {
                     if (Helper.getAliasString(dict, y).equals(yao)) {
-                        fangList.add(item.getFangList()[0].toString());
+                        fangList.add(item.getFangList().get(0).toString());
                         break;
                     }
                 }
@@ -408,7 +408,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
                     if (type < 0) {
                         found = p.matcher(sourceString).find();
                     } else if (type >= 0) {
-                        String[] list = type == 0 ? item.getYaoList()
+                        List<String> list = type == 0 ? item.getYaoList()
                                 : item.getFangList();
                         found = false;
                         for (String item_ : list) {
