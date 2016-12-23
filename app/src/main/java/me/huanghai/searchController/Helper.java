@@ -1,5 +1,6 @@
 package me.huanghai.searchController;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -168,7 +169,10 @@ public class Helper {
                 window.setFang(s);
                 window.setAttributedString(new SpannableStringBuilder(tv.getText()));
                 window.setRect(rect);
-                window.show(SingletonData.getInstance().curActivity.getFragmentManager());
+                Context context = tv.getContext();
+                Activity activity = (Activity)context;
+                window.show(activity.getFragmentManager());
+//                window.show(SingletonData.getInstance().curActivity.getFragmentManager());
             }
         });
     }
