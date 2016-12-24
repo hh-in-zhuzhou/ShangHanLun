@@ -39,6 +39,8 @@ public class SingletonData {
     public final int Show_Jinkui_None = 0;
     public final int Show_Jinkui_Default = 1;
 
+    private final String preferenceKey = "shanghan3.1";
+
     protected int showShanghan = Show_Shanghan_398;
     protected int showJinkui = Show_Jinkui_Default;
     protected Map<String, String> yaoAliasDict;
@@ -221,7 +223,7 @@ public class SingletonData {
 
     public void savePreferences() {
         SharedPreferences pref = MyApplication.getAppContext()
-                .getSharedPreferences("shanghan", Context.MODE_PRIVATE);
+                .getSharedPreferences(preferenceKey, Context.MODE_PRIVATE);
         Editor editor = pref.edit();
         editor.putInt("showShanghan", showShanghan);
         editor.putInt("showJinkui", showJinkui);
@@ -230,7 +232,7 @@ public class SingletonData {
 
     private SingletonData() {
         SharedPreferences pref = MyApplication.getAppContext()
-                .getSharedPreferences("shanghan3.1", Context.MODE_PRIVATE);
+                .getSharedPreferences(preferenceKey, Context.MODE_PRIVATE);
         showShanghan = pref.getInt("showShanghan", Show_Shanghan_398);
         showJinkui = pref.getInt("showJinkui", Show_Jinkui_Default);
 
