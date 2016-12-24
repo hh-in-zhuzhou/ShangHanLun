@@ -1,34 +1,29 @@
 package me.huanghai.searchController;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.nakardo.atableview.uikit.UILabel;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 
+import DataBeans.Fang;
 import me.huanghai.shanghanlun_android.MainActivity;
 import me.huanghai.shanghanlun_android.R;
 
@@ -142,7 +137,24 @@ public class LittleTextViewWindow extends LittleWindow {
                 .getFang()) {
             SpannableStringBuilder spanIn = new SpannableStringBuilder();
             count = 0;
-            for (DataItem item : sec.getData()) {
+            List<? extends DataItem> fangs = sec.getData();
+            final String curYao = right;
+            fangs = Helper.filter((List<DataItem>)fangs, new Helper.IFilter<DataItem>() {
+                @Override
+                public boolean filter(DataItem o) {
+                    Fang f = (Fang)o;
+                    return f.hasYao(curYao);
+                }
+            });
+            Collections.sort(fangs, new Comparator<DataItem>() {
+                @Override
+                public int compare(DataItem o1, DataItem o2) {
+                    Fang f1 = (Fang)o1;
+                    Fang f2 = (Fang)o2;
+                    return f1.compare(f2,curYao);
+                }
+            });
+            for (DataItem item : fangs) {
                 for (String string : item.getYaoList()) {
                     String left = yaoDict.get(string);
                     if (left == null) {
@@ -150,8 +162,9 @@ public class LittleTextViewWindow extends LittleWindow {
                     }
                     if (left.equals(right)) {
                         count++;
-                        spanIn.append(Helper.renderText("$f{"
-                                + item.getFangList().get(0) + "}、"));
+//                        spanIn.append(Helper.renderText("$f{"
+//                                + item.getFangList().get(0) + "}、"));
+                        spanIn.append(Helper.renderText(((Fang)item).getFangNameLinkWithYaoWeight(right)));
                         break;
                     }
                 }

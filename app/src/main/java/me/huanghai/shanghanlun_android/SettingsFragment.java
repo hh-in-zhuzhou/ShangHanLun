@@ -22,17 +22,19 @@ import com.nakardo.atableview.view.ATableViewCell;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellSelectionStyle;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellStyle;
 
+import me.huanghai.searchController.Helper;
 import me.huanghai.searchController.SingletonData;
 
 public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
     private int choice = 2;
-    private String version = "3.0.0.1";
+    private String version = "3.1 beta 2";
 
     private String[] about = {
             "当前版本",
             "版本特点：",
+            "最后更新时间",
             "请联系作者",
             "欢迎进qq群",
             "官网",
@@ -40,7 +42,8 @@ public class SettingsFragment extends Fragment {
     };
     private String[] aboutInfo = {
             version,
-            "正式版+",
+            "增加了药物排序 beta 2",
+            Helper.getDateString(0),
             "23891995@qq.com",
             "464024993",
             "http://www.huanghai.me",
@@ -159,20 +162,21 @@ public class SettingsFragment extends Fragment {
             tableView.requestLayout();
             if (indexPath.getSection() == 0) {
                 int row = indexPath.getRow();
-                if (row == 3) {
+                int qqRow = 4;
+                if (row == qqRow) {
                     putStringToClipboard("464024993");
                     Toast.makeText(getActivity(), "群号已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                } else if (row == 4) {
+                } else if (row == qqRow+1) {
 //                    putStringToClipboard("http://www.huanghai.me");
 //                    Toast.makeText(getActivity(), "网址已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                    final Uri uri = Uri.parse("http://www.huanghai.me");
+                    final Uri uri = Uri.parse("http://www.zzjapp.cn");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
-                } else if (row == 2) {
+                } else if (row == qqRow-1) {
                     putStringToClipboard("23891995");
                     Toast.makeText(getActivity(), "作者qq号已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                } else if (row == 5) {
-                    final Uri uri = Uri.parse("http://www.huanghai.me/cur_version.php?ver=" + version);
+                } else if (row == qqRow+2) {
+                    final Uri uri = Uri.parse("http://www.zzjapp.cn/cur_version.php?ver=" + version);
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }
