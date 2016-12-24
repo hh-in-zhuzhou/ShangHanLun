@@ -1,9 +1,7 @@
 package me.huanghai.searchController;
 
-import android.app.Fragment;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
-import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
 import com.nakardo.atableview.protocol.ATableViewDataSource;
@@ -86,6 +84,13 @@ public class ShowFang {
                     }
                 }
             }
+        }
+
+        if (!found){
+            headers.add("伤寒金匮方");
+            ArrayList<SpannableStringBuilder> obj = new ArrayList<SpannableStringBuilder>();
+            obj.add(Helper.renderText("$m{未见方。}"));
+            data.add(obj);
         }
 
         ArrayList<SpannableStringBuilder> obj = null;
