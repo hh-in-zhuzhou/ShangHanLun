@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.Layout;
@@ -19,6 +20,7 @@ import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,6 +127,9 @@ public class Helper {
                         clickLink.clickFangLink((TextView) widget, this);
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if ("f".contains(strClass)){
+                res.setSpan(new StyleSpan(Typeface.BOLD), pos + 3, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             // 把加颜色放到最后
             int color = getColoredTextByStrClass(strClass);
@@ -268,13 +273,15 @@ public class Helper {
         map.put("n", Color.BLUE);
         map.put("f", Color.BLUE);
         map.put("a", Color.GRAY);
-        map.put("m", Color.rgb(255, 0, 255));
+        map.put("m", Color.rgb(255, 0, 0));
         map.put("s", Color.argb(230, 0, 128, 255));
         map.put("u", Color.rgb(77, 0, 255));
         map.put("v", Color.rgb(77, 0, 255));
         map.put("w", Color.rgb(0, 128, 0));
         map.put("q", Color.rgb(61, 200, 120));
         map.put("h", Color.TRANSPARENT);
+        map.put("x", Color.parseColor("#EA8E3B"));
+        map.put("y", Color.parseColor("#9A764F"));
         Integer res = map.get(strClass);
         return res == null ? Color.BLACK : res;
     }

@@ -1,5 +1,6 @@
 package DataBeans;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,31 +25,16 @@ public class Fang extends DataItem {
     List<YaoUse> helpYaoList;
 
     public boolean hasYao(final String yao){
-        if (standardYaoList != null){
-            return Helper.some(standardYaoList, new Helper.IBool<YaoUse>() {
-                @Override
-                public boolean isOK(YaoUse o) {
-                    return isYaoEqual(o.showName, yao);
-                }
-            });
-        }
-        if (extraYaoList != null){
-            return Helper.some(extraYaoList, new Helper.IBool<YaoUse>() {
-                @Override
-                public boolean isOK(YaoUse o) {
-                    return isYaoEqual(o.showName, yao);
-                }
-            });
-        }
-        if (helpYaoList != null){
-            return Helper.some(helpYaoList, new Helper.IBool<YaoUse>() {
-                @Override
-                public boolean isOK(YaoUse o) {
-                    return isYaoEqual(o.showName, yao);
-                }
-            });
-        }
-        return false;
+        if (standardYaoList == null)standardYaoList = new LinkedList<>();
+        if (extraYaoList == null)extraYaoList = new LinkedList<>();
+        if (helpYaoList == null)helpYaoList = new LinkedList<>();
+        Helper.IBool<YaoUse> func = new Helper.IBool<YaoUse>() {
+            @Override
+            public boolean isOK(YaoUse o) {
+                return isYaoEqual(o.showName, yao);
+            }
+        };
+        return Helper.some(standardYaoList, func) || Helper.some(extraYaoList, func) || Helper.some(helpYaoList, func);
     }
 
     public int compare(Fang fang, String yao){

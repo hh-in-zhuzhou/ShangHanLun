@@ -162,8 +162,6 @@ public class LittleTextViewWindow extends LittleWindow {
                     }
                     if (left.equals(right)) {
                         count++;
-//                        spanIn.append(Helper.renderText("$f{"
-//                                + item.getFangList().get(0) + "}、"));
                         spanIn.append(Helper.renderText(((Fang)item).getFangNameLinkWithYaoWeight(right)));
                         break;
                     }
@@ -172,8 +170,7 @@ public class LittleTextViewWindow extends LittleWindow {
             if (index > 0) {
                 spanString.append("\n\n");
             }
-            spanString.append(sec.getHeader()
-                    + " 凡" + count + "方");
+            spanString.append(Helper.renderText(String.format("$m{%s}-$m{含“$v{%s}”凡%d方：}", sec.getHeader(), right, count)));
             if (count > 0) {
                 spanString.append("\n");
                 spanString.append(spanIn);

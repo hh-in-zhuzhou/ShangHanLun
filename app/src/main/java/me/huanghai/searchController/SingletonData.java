@@ -149,7 +149,10 @@ public class SingletonData {
                 put("白芍药", "芍药");
                 put("枣", "大枣");
                 put("枣膏", "大枣");
+                put("枣肉", "大枣");
                 put("生姜汁", "生姜");
+                put("姜", "生姜");
+                put("生葛", "葛根");
 
                 put("生地黄", "地黄");
                 put("干地黄", "地黄");
@@ -161,6 +164,7 @@ public class SingletonData {
                 put("甘遂末", "甘遂");
                 put("茵陈蒿末", "茵陈蒿");
                 put("大附子", "附子");
+                put("川乌", "乌头");
                 put("粉", "白粉");
                 put("白蜜", "蜜");
                 put("食蜜", "蜜");
@@ -210,6 +214,13 @@ public class SingletonData {
                 put("瓜蒌根", "栝楼根");
                 put("括蒌实", "栝楼实");
                 put("瓜蒌实", "栝楼实");
+                put("栝楼", "栝楼实");
+
+                put("浆水","清浆水");
+                put("川椒","蜀椒");
+                put("生竹茹","竹茹");
+                put("柏皮","黄柏");
+
             }
         };
         fangAliasDict = new HashMap<String, String>() {
@@ -217,6 +228,7 @@ public class SingletonData {
                 put("人参汤", "理中汤");
                 put("芪芍桂酒汤", "黄芪芍药桂枝苦酒汤");
                 put("膏发煎", "猪膏发煎");
+                put("小柴胡", "小柴胡汤");
             }
         };
     }
