@@ -28,7 +28,6 @@ import me.huanghai.searchController.SingletonData;
 public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
-    private int choice = 2;
     private String version = "3.1 beta 2";
 
     private String[] about = {
@@ -62,14 +61,19 @@ public class SettingsFragment extends Fragment {
             "3、感谢群里的“微笑一生”朋友，是他帮助整理的本经和别录内容，才使得新版本能够早早的出炉。",
             "4、感谢联系过我的朋友，以及群里的各位朋友，你们的厚爱和支持，给了我莫大的支持和帮助。"
     };
-    private String[] toggleContent = {
-            "仅显示398条",
-            "显示完整宋板伤寒论",
-            "显示398条与金匮要略"
+    private String[] toggleShanghan = {
+            "不显示伤寒论",
+            "只显示398条",
+            "显示完整宋板伤寒论"
+    };
+    private String[] toggleJinkui = {
+            "不显示金匮要略",
+            "显示默认版金匮要略"
     };
     private String[][] data = {
             about,
-            toggleContent,
+            toggleShanghan,
+            toggleJinkui,
             teach,
             thx
     };
@@ -83,15 +87,8 @@ public class SettingsFragment extends Fragment {
         tableView.init(ATableViewStyle.Grouped);
         tableView.setDataSource(new SampleATableViewDataSource());
         tableView.setDelegate(new SampleATableViewDelegate());
-        boolean isSimple = SingletonData.getInstance().getIsSimple();
-        boolean showJinkui = SingletonData.getInstance().getShowJinkui();
-        if (isSimple && !showJinkui) {
-            choice = 0;
-        } else if (!isSimple) {
-            choice = 1;
-        } else if (isSimple && showJinkui) {
-            choice = 2;
-        }
+        int showShanghan = SingletonData.getInstance().getShowShanghan();
+        int showJinkui = SingletonData.getInstance().getShowJinkui();
 
         return view;
     }
@@ -126,8 +123,12 @@ public class SettingsFragment extends Fragment {
             cell.setAccessoryType(ATableViewCellAccessoryType.None);
             if (indexPath.getSection() == 0) {
                 cell.getDetailTextLabel().setText(aboutInfo[indexPath.getRow()]);
-            } else if (indexPath.getSection() == 1 && indexPath.getRow() == choice) {
+            } else if (indexPath.getSection() == 1 && indexPath.getRow() == SingletonData.getInstance().getShowShanghan()) {
                 cell.setAccessoryType(ATableViewCellAccessoryType.Checkmark);
+                cell.getDetailTextLabel().setText("");
+            } else if(indexPath.getSection() == 2 && indexPath.getRow() == SingletonData.getInstance().getShowJinkui()){
+                cell.setAccessoryType(ATableViewCellAccessoryType.Checkmark);
+                cell.getDetailTextLabel().setText("");
             } else {
                 cell.getDetailTextLabel().setText("");
             }
@@ -149,7 +150,7 @@ public class SettingsFragment extends Fragment {
         }
 
         public String titleForHeaderInSection(ATableView tableView, int section) {
-            String[] header = {"关于", "切换内容", "使用说明", "致谢（不分顺序）"};
+            String[] header = {"关于", "关于伤寒论内容", "关于金匮要略内容", "使用说明", "致谢（不分顺序）"};
             return header[section];
         }
 
@@ -182,29 +183,32 @@ public class SettingsFragment extends Fragment {
                 }
             } else if (indexPath.getSection() == 1) {
                 boolean changed = false;
-                if (choice != indexPath.getRow()) {
+                if (SingletonData.getInstance().getShowShanghan() != indexPath.getRow()) {
                     changed = true;
                 }
-                choice = indexPath.getRow();
-                tableView.reloadData();
-
-                SingletonData.getInstance().setSimple(indexPath.getRow() != 1);
-                SingletonData.getInstance().setShowJinkui(indexPath.getRow() == 2);
+                SingletonData.getInstance().setShowShanghan(indexPath.getRow());
                 SingletonData.getInstance().savePreferences();
+                tableView.reloadData();
                 if (changed) {
-                    SingletonData.getInstance().reReadContent();
-                    SingletonData.getInstance().reReadFang();
+                    refreshContent();
                 }
-                TabController tab = (TabController) getActivity();
-                for (Fragment frag : tab.fragments) {
-                    if (frag instanceof MainFragment) {
-                        ((MainFragment) frag).resetData(SingletonData.getInstance().getContent());
-                    } else if (frag instanceof FangFragment) {
-                        ((FangFragment) frag).resetData(SingletonData.getInstance().getFang());
-                    }
+            } else if(indexPath.getSection() == 2){
+                boolean changed = false;
+                if (SingletonData.getInstance().getShowJinkui() != indexPath.getRow()) {
+                    changed = true;
+                }
+                SingletonData.getInstance().setShowJinkui(indexPath.getRow());
+                SingletonData.getInstance().savePreferences();
+                tableView.reloadData();
+                if (changed) {
+                    refreshContent();
                 }
             }
         }
+    }
+
+    private void refreshContent(){
+        SingletonData.getInstance().reReadData(getActivity());
     }
 
     private void putStringToClipboard(String text) {

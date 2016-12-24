@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
 
+import me.huanghai.searchController.MyApplication;
 import me.huanghai.searchController.SingletonData;
 
 public class MainActivity extends Activity {
@@ -32,6 +33,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("MainActivity", "onCreate!!!!!");
+        MyApplication.activity = this;
+        SingletonData.getInstance();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.tabcontroller);
 

@@ -47,7 +47,7 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
 
                 int num = 0;
                 int i = 0;// 太阳篇前面有8章
-                if (SingletonData.getInstance().getIsSimple() == false) {
+                if (SingletonData.getInstance().getShowShanghan() > 1) {
                     for (int j = 0; j < 8; i++) {
                         HH2SectionData sd = data.get(j);
                         num += 1 + sd.getData().size();
