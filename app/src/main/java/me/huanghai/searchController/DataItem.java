@@ -1,13 +1,11 @@
 package me.huanghai.searchController;
 
 import android.text.SpannableStringBuilder;
-import android.util.Log;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class DataItem {
     private int ID;
@@ -120,7 +118,4 @@ public class DataItem {
         }
         return resStrings;
     }
-
-
-
 }

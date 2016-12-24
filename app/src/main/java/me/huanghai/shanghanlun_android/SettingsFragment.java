@@ -28,7 +28,7 @@ import me.huanghai.searchController.SingletonData;
 public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
-    private String version = "3.1 beta 2";
+    private String version = "3.1 beta 3";
 
     private String[] about = {
             "当前版本",
@@ -41,7 +41,7 @@ public class SettingsFragment extends Fragment {
     };
     private String[] aboutInfo = {
             version,
-            "增加了药物排序 beta 2",
+            "新改内容切换功能 beta 3",
             Helper.getDateString(0),
             "23891995@qq.com",
             "464024993",

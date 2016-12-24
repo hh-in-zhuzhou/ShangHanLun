@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.nakardo.atableview.foundation.NSIndexPath;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -319,6 +320,14 @@ public class SingletonData {
             List<HH2SectionData> jinkui = gson.fromJson(string, new TypeToken<List<HH2SectionData>>() {}.getType());
             content.addAll(jinkui);
         }
+
+        for (HH2SectionData sec :
+                content) {
+            List<? extends DataItem> tmp = sec.getData();
+            for (int i = 0; i < tmp.size(); i++){
+                tmp.get(i).setIndexPath(NSIndexPath.indexPathForRowInSection(i, sec.getSection()));
+            }
+        }
     }
 
     public void reReadFang() {
@@ -336,6 +345,13 @@ public class SingletonData {
             fang.add(new HH2SectionData(jinkui, 1, "金匮要略方"));
         }
 
+        for (int j = 0; j < content.size(); j++){
+            HH2SectionData sec = content.get(j);
+            List<? extends DataItem> tmp2 = sec.getData();
+            for (int i = 0; i < tmp2.size(); i++){
+                tmp2.get(i).setIndexPath(NSIndexPath.indexPathForRowInSection(i, j));
+            }
+        }
     }
 
     public static SingletonData getInstance() {

@@ -145,6 +145,7 @@ public class Helper {
         return renderText(textString, new ClickLink() {
             @Override
             public void clickYaoLink(TextView tv, ClickableSpan clickableSpan) {
+                Helper.closeKeyboard(SingletonData.getInstance().curActivity);
                 String s = tv
                         .getText()
                         .subSequence(tv.getSelectionStart(),
@@ -161,6 +162,7 @@ public class Helper {
 
             @Override
             public void clickFangLink(TextView tv, ClickableSpan clickableSpan) {
+                Helper.closeKeyboard(SingletonData.getInstance().curActivity);
                 String s = tv
                         .getText()
                         .subSequence(tv.getSelectionStart(),
