@@ -45,7 +45,7 @@ public class SettingsFragment extends Fragment {
             Helper.getDateString(0),
             "23891995@qq.com",
             "464024993",
-            "http://www.huanghai.me",
+            "http://www.zzjapp.cn",
             "=>"
     };
     private String[] teach = {
@@ -168,8 +168,6 @@ public class SettingsFragment extends Fragment {
                     putStringToClipboard("464024993");
                     Toast.makeText(getActivity(), "群号已复制到剪贴板", Toast.LENGTH_SHORT).show();
                 } else if (row == qqRow+1) {
-//                    putStringToClipboard("http://www.huanghai.me");
-//                    Toast.makeText(getActivity(), "网址已复制到剪贴板", Toast.LENGTH_SHORT).show();
                     final Uri uri = Uri.parse("http://www.zzjapp.cn");
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
