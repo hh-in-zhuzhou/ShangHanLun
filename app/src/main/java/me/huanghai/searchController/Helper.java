@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.text.Layout;
@@ -20,7 +19,6 @@ import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,9 +126,9 @@ public class Helper {
                     }
                 }, pos + 3, endPos, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            if ("f".contains(strClass)){
-                res.setSpan(new StyleSpan(Typeface.BOLD), pos + 3, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+//            if ("f".contains(strClass)){
+//                res.setSpan(new StyleSpan(Typeface.BOLD), pos + 3, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//            }
             // 把加颜色放到最后
             int color = getColoredTextByStrClass(strClass);
             ForegroundColorSpan someSpan = new ForegroundColorSpan(color);

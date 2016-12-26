@@ -22,7 +22,6 @@ import com.nakardo.atableview.view.ATableViewCell;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellSelectionStyle;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellStyle;
 
-import me.huanghai.searchController.Helper;
 import me.huanghai.searchController.SingletonData;
 
 public class SettingsFragment extends Fragment {
@@ -41,8 +40,8 @@ public class SettingsFragment extends Fragment {
     };
     private String[] aboutInfo = {
             version,
-            "修复错误",
-            Helper.getDateString(0),
+            "修复错误,取消加粗字体",
+            "2016-12-25",
             "23891995@qq.com",
             "464024993",
             "http://www.zzjapp.cn",
