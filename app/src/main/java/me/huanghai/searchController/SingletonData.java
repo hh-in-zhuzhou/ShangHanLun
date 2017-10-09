@@ -101,7 +101,9 @@ public class SingletonData {
     }
 
     public void popShowFang() {
-        showFangList.remove(showFangList.size() - 1);
+        if (showFangList.size() > 0) {
+            showFangList.remove(showFangList.size() - 1);
+        }
     }
 
     public int getShowShanghan() {
