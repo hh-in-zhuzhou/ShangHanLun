@@ -3,6 +3,7 @@ package me.huanghai.shanghanlun_android;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
@@ -84,6 +85,7 @@ public class MainFragment extends ShowFragment implements ActionSheet.ActionShee
     @Override
     public void clickRowAtIndexPath(ATableView tableView, NSIndexPath indexPath) {
         // super.clickRowAtIndexPath(tableView, indexPath);
+        Log.e("----->","clickRow");
         DataItem item = data.get(indexPath.getSection()).getData()
                 .get(indexPath.getRow());
         List<String> fangList = item.getFangList();

@@ -1,11 +1,8 @@
 package me.huanghai.searchController;
 
 import android.app.Fragment;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Spannable;
@@ -23,13 +20,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nakardo.atableview.foundation.NSIndexPath;
-import com.nakardo.atableview.internal.ATableViewHeaderFooterCell;
 import com.nakardo.atableview.protocol.ATableViewDataSource;
 import com.nakardo.atableview.protocol.ATableViewDelegate;
 import com.nakardo.atableview.uikit.UILabel;
@@ -39,7 +33,6 @@ import com.nakardo.atableview.view.ATableViewCell;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellSelectionStyle;
 import com.nakardo.atableview.view.ATableViewCell.ATableViewCellStyle;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -651,6 +644,7 @@ public class ShowFragment extends Fragment implements TextWatcher, View.OnClickL
 //                Log.e("didSelect", "inOnSelectMode");
                 return;
             }
+            Log.e("----->","didSelect!!!");
             clickRowAtIndexPath(tableView, indexPath);
             tableView.clearChoices();
             tableView.requestLayout();

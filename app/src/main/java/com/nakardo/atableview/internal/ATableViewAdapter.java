@@ -712,6 +712,7 @@ public class ATableViewAdapter extends BaseAdapter implements OnScrollListener,
             convertView = cell;
         }
         // Log.d("getView:", String.valueOf(position));
+        ((ViewGroup)convertView).setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         return convertView;
     }
 

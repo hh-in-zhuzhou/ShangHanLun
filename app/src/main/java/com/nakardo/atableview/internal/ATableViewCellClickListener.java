@@ -1,5 +1,6 @@
 package com.nakardo.atableview.internal;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,6 +23,7 @@ public class ATableViewCellClickListener implements OnItemClickListener {
         // make sure we're clicking a cell, do not send callbacks for header or footer rows.
         ATableView tableView = (ATableView) view.getParent();
         ATableViewDelegate delegate = mTableView.getDelegate();
+        Log.e("------>>>>","onItemClick!!");
         if (view instanceof ATableViewCell) {
 
             // don't throw up selection events if it's not allowed by the table configuration.

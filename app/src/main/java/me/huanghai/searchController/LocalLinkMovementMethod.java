@@ -4,8 +4,8 @@ import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
-import android.text.method.Touch;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
@@ -62,11 +62,14 @@ public class LocalLinkMovementMethod extends LinkMovementMethod {
                 if (widget instanceof UILabel) {
                     ((UILabel) widget).linkHit = true;
                 }
+                Log.e("--->>","up or down");
                 return true;
             } else {
+                Log.e("--->>","up or down else");
                 Selection.removeSelection(buffer);
             }
         }
-        return Touch.onTouchEvent(widget, buffer, event);
+        Log.e("--->>","end");
+        return super.onTouchEvent(widget,buffer,event);
     }
 }

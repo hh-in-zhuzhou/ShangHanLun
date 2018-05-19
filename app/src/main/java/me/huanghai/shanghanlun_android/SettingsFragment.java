@@ -27,7 +27,7 @@ import me.huanghai.searchController.SingletonData;
 public class SettingsFragment extends Fragment {
 
     private ATableView tableView;
-    private String version = "3.1 beta 5";
+    private String version = "3.1 beta 6";
 
     private String[] about = {
             "当前版本",
@@ -40,8 +40,8 @@ public class SettingsFragment extends Fragment {
     };
     private String[] aboutInfo = {
             version,
-            "修复错误,取消加粗字体",
-            "2016-12-25",
+            "修正android 8下无法点出菜单bug",
+            "2018-1-14",
             "23891995@qq.com",
             "464024993",
             "http://www.zzjapp.cn",
